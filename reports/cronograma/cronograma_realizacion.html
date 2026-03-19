@@ -179,6 +179,60 @@
       line-height: 1.7;
     }
 
+    .docnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 24px;
+      background: rgba(28, 42, 36, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(28, 42, 36, 0.14);
+    }
+
+    .docnav-home {
+      font-weight: 800;
+      font-size: 1rem;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+    }
+
+    .docnav-links {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .docnav-links a {
+      text-decoration: none;
+      color: rgba(255,255,255,0.6);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .docnav-links a:hover,
+    .docnav-links a.active {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+
+    .docnav-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(33, 77, 59, 0.35);
+      color: #7ecba5;
+      border: 1px solid rgba(33, 77, 59, 0.5);
+      white-space: nowrap;
+    }
+
     @media (max-width: 900px) {
       .notes {
         grid-template-columns: 1fr;
@@ -187,6 +241,16 @@
   </style>
 </head>
 <body>
+  <nav class="docnav">
+    <a href="../../app/landing/index.html" class="docnav-home">&#9992; FLY</a>
+    <div class="docnav-links">
+      <a href="../../architecture/canvas/canvas_arquitectura.html">Canvas</a>
+      <a href="../html/funcionalidades_sistema.html">Funcionalidades</a>
+      <a href="cronograma_realizacion.html" class="active">Cronograma</a>
+    </div>
+    <span class="docnav-badge">19-Mar-2026</span>
+  </nav>
+
   <main class="wrap">
     <section class="hero">
       <span class="eyebrow">Cronograma de Realizacion</span>

@@ -37,18 +37,18 @@
         </nav>
         
         <div class="hero-content">
-            <div class="hero-badge">PostgreSQL 16 • 12 Módulos • 76 Tablas • 3FN</div>
+            <div class="hero-badge">PostgreSQL 16 · 12 Módulos · 76 Tablas · 3FN · Seed Canónico ✓</div>
             <h1 class="hero-title">
                 Modelo Relacional<br>
                 <span class="gradient-text">Sistema de Aerolínea</span>
             </h1>
             <p class="hero-description">
-                Arquitectura relacional validada para gestión integral de operaciones aéreas:
-                identidad, reservas, ticketing, vuelos, embarque, pagos y facturación en una versión alineada a 3FN.
+                Arquitectura relacional 3FN validada con seed canónico implementado: 3 flujos comerciales E2E completos
+                desde identidad hasta facturación y embarque. Próximo paso: seed volumétrico.
             </p>
             <div class="hero-actions">
-                <a href="#modules" class="btn btn-primary">Explorar Módulos</a>
-                <a href="#downloads" class="btn btn-secondary">Descargar SQL</a>
+                <a href="#status" class="btn btn-primary">Ver Estado</a>
+                <a href="#modules" class="btn btn-secondary">Explorar Módulos</a>
             </div>
         </div>
         
@@ -166,6 +166,68 @@
             </svg>
             <span class="stat-number">3NF</span>
             <span class="stat-label">Normalizado</span>
+        </div>
+        <div class="stat-card">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <path d="M20 4L8 12V20C8 29.4 13.2 37.8 20 40C26.8 37.8 32 29.4 32 20V12L20 4Z" fill="#10B981" opacity="0.2" stroke="#10B981" stroke-width="2"/>
+                <path d="M13 20L18 25L27 14" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="stat-number">3</span>
+            <span class="stat-label">Flujos E2E</span>
+        </div>
+    </section>
+
+    <!-- Status Section -->
+    <section id="status" class="project-status">
+        <div class="status-header">
+            <span class="section-tag">Estado del Proyecto</span>
+            <h2>Pipeline de datos al 19-Mar-2026</h2>
+            <p>Cada fase refleja el contrato operativo entre DDL, seeds y validaciones</p>
+        </div>
+        <div class="status-phases">
+            <div class="phase phase-done">
+                <div class="phase-icon">✓</div>
+                <div class="phase-name">DDL Validado</div>
+                <div class="phase-detail">76 tablas · 100+ FKs · 112 UNIQUE</div>
+            </div>
+            <div class="phase-arrow">→</div>
+            <div class="phase phase-done">
+                <div class="phase-icon">✓</div>
+                <div class="phase-name">Seed Canónico</div>
+                <div class="phase-detail">3 flujos E2E · Política cronológica · Gate de validación</div>
+            </div>
+            <div class="phase-arrow">→</div>
+            <div class="phase phase-active">
+                <div class="phase-icon pulse">◉</div>
+                <div class="phase-name">Seed Volumétrico</div>
+                <div class="phase-detail">Vuelos futuros · Escala de reservas · 2026-03-20 a 2026-06-30</div>
+            </div>
+            <div class="phase-arrow">→</div>
+            <div class="phase phase-pending">
+                <div class="phase-icon">○</div>
+                <div class="phase-name">Auditoría Estructural</div>
+                <div class="phase-detail">IE-001 · IE-002 · Cierre de hallazgos</div>
+            </div>
+            <div class="phase-arrow">→</div>
+            <div class="phase phase-pending">
+                <div class="phase-icon">○</div>
+                <div class="phase-name">Release Técnico</div>
+                <div class="phase-detail">QA documental · Paquete final</div>
+            </div>
+        </div>
+        <div class="status-flows">
+            <div class="flow-card">
+                <div class="flow-label">Flujo 1 — Ana García</div>
+                <div class="flow-route">BOG → MIA → MAD · Business con conexión · FY210 + FY711 · 10-Mar-2026</div>
+            </div>
+            <div class="flow-card">
+                <div class="flow-label">Flujo 2 — Carlos Mendoza</div>
+                <div class="flow-route">BOG → MDE · Economy · FY101 · 12-Mar-2026</div>
+            </div>
+            <div class="flow-card">
+                <div class="flow-label">Flujo 3 — Laura Torres</div>
+                <div class="flow-route">BOG → MIA · Economy · FY305 · 15-Mar-2026</div>
+            </div>
         </div>
     </section>
 
@@ -823,7 +885,35 @@
             <div class="download-card">
                 <div class="download-icon">
                     <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                        <rect x="12" y="4" width="40" height="56" rx="4" fill="#10B981"/>
+                        <text x="32" y="38" text-anchor="middle" fill="white" font-size="14" font-weight="700">SQL</text>
+                    </svg>
+                </div>
+                <div class="download-badge done">Validado</div>
+                <h3>DDL PostgreSQL</h3>
+                <p>DDL maestro ejecutado en PostgreSQL 16. 76 tablas, PKs, FKs, restricciones UNIQUE y CHECK.</p>
+                <span class="download-format">SQL (.sql)</span>
+                <a href="../../db/ddl/modelo_postgresql.sql" class="btn btn-primary" download>Descargar DDL</a>
+            </div>
+
+            <div class="download-card">
+                <div class="download-icon">
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
                         <rect x="12" y="4" width="40" height="56" rx="4" fill="#3B82F6"/>
+                        <text x="32" y="38" text-anchor="middle" fill="white" font-size="11" font-weight="700">SEED</text>
+                    </svg>
+                </div>
+                <div class="download-badge done">Implementado</div>
+                <h3>Seed Canónico</h3>
+                <p>3 flujos E2E completos: person → customer → reservation → sale → ticket → payment → invoice → boarding.</p>
+                <span class="download-format">SQL (.sql)</span>
+                <a href="../../db/seeds/00_seed_canonico.sql" class="btn btn-primary" download>Descargar Seed</a>
+            </div>
+
+            <div class="download-card">
+                <div class="download-icon">
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                        <rect x="12" y="4" width="40" height="56" rx="4" fill="#1D4ED8"/>
                         <rect x="18" y="14" width="20" height="4" fill="white"/>
                         <rect x="18" y="24" width="28" height="2" fill="white" opacity="0.6"/>
                         <rect x="18" y="30" width="28" height="2" fill="white" opacity="0.6"/>
@@ -831,37 +921,42 @@
                         <rect x="18" y="42" width="20" height="2" fill="white" opacity="0.6"/>
                     </svg>
                 </div>
+                <div class="download-badge done">Documentado</div>
                 <h3>Modelo Documentado</h3>
-                <p>Versión documentada del modelo 3FN con módulos, decisiones de diseño y trazabilidad arquitectónica.</p>
+                <p>Modelo 3FN con módulos, decisiones de diseño, jerarquías y trazabilidad arquitectónica.</p>
                 <span class="download-format">Markdown (.md)</span>
-                <a href="../../docs/datos/modelo_documentado.md" class="btn btn-primary" download>Descargar Documentación</a>
-            </div>
-            
-            <div class="download-card">
-                <div class="download-icon">
-                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                        <rect x="12" y="4" width="40" height="56" rx="4" fill="#10B981"/>
-                        <text x="32" y="38" text-anchor="middle" fill="white" font-size="14" font-weight="700">SQL</text>
-                    </svg>
-                </div>
-                <h3>Script PostgreSQL</h3>
-                <p>DDL validado en PostgreSQL 16. Incluye 76 tablas, PKs, FKs, restricciones e índices base.</p>
-                <span class="download-format">SQL (.sql)</span>
-                <a href="../../db/ddl/modelo_postgresql.sql" class="btn btn-primary" download>Descargar SQL</a>
+                <a href="../../docs/datos/modelo_documentado.md" class="btn btn-primary" download>Descargar Doc</a>
             </div>
 
             <div class="download-card">
                 <div class="download-icon">
                     <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                        <rect x="12" y="4" width="40" height="56" rx="4" fill="#F59E0B"/>
+                        <rect x="8" y="8" width="48" height="48" rx="8" fill="#16324f"/>
+                        <rect x="14" y="20" width="36" height="6" rx="2" fill="#1f6feb" opacity="0.8"/>
+                        <rect x="14" y="30" width="24" height="4" rx="2" fill="#1f6feb" opacity="0.5"/>
+                        <rect x="14" y="38" width="30" height="4" rx="2" fill="#1f6feb" opacity="0.5"/>
+                    </svg>
+                </div>
+                <div class="download-badge done">Actualizado</div>
+                <h3>Canvas Arquitectónico</h3>
+                <p>Vista técnica de decisiones, métricas, flujo canónico, riesgos activos y siguiente fase.</p>
+                <span class="download-format">HTML (.html)</span>
+                <a href="../../architecture/canvas/canvas_arquitectura.html" class="btn btn-primary">Abrir Canvas</a>
+            </div>
+
+            <div class="download-card">
+                <div class="download-icon">
+                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                        <rect x="12" y="4" width="40" height="56" rx="4" fill="#c3562c"/>
                         <rect x="18" y="16" width="28" height="4" fill="white"/>
                         <rect x="18" y="26" width="24" height="4" fill="white" opacity="0.75"/>
                         <rect x="18" y="36" width="28" height="4" fill="white" opacity="0.6"/>
                         <rect x="18" y="46" width="18" height="4" fill="white" opacity="0.45"/>
                     </svg>
                 </div>
+                <div class="download-badge done">Actualizado</div>
                 <h3>Informe de Funcionalidades</h3>
-                <p>Reporte HTML para explicar capacidades del sistema, estado actual del paquete y artefactos de soporte.</p>
+                <p>Estado del sistema, capacidades por módulo, flujo operativo visible y artefactos disponibles.</p>
                 <span class="download-format">HTML (.html)</span>
                 <a href="../../reports/html/funcionalidades_sistema.html" class="btn btn-primary">Abrir Informe</a>
             </div>
@@ -869,14 +964,15 @@
             <div class="download-card">
                 <div class="download-icon">
                     <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                        <rect x="10" y="10" width="44" height="44" rx="10" fill="#8B5CF6"/>
-                        <rect x="18" y="18" width="6" height="28" fill="white" opacity="0.7"/>
-                        <rect x="28" y="24" width="6" height="22" fill="white" opacity="0.8"/>
-                        <rect x="38" y="14" width="6" height="32" fill="white"/>
+                        <rect x="10" y="10" width="44" height="44" rx="10" fill="#214d3b"/>
+                        <rect x="18" y="18" width="6" height="28" fill="#4e9b78"/>
+                        <rect x="28" y="24" width="6" height="22" fill="#4e9b78" opacity="0.8"/>
+                        <rect x="38" y="14" width="6" height="32" fill="#4e9b78" opacity="0.6"/>
                     </svg>
                 </div>
-                <h3>Cronograma de Realizacion</h3>
-                <p>Vista HTML del plan de ejecucion por fases, con hitos completados, en curso y planificados.</p>
+                <div class="download-badge active">En curso</div>
+                <h3>Cronograma de Realización</h3>
+                <p>Hitos completados al 19-Mar y fases pendientes: seed volumétrico, auditoría y release técnico.</p>
                 <span class="download-format">HTML (.html)</span>
                 <a href="../../reports/cronograma/cronograma_realizacion.html" class="btn btn-primary">Abrir Cronograma</a>
             </div>
@@ -894,7 +990,7 @@
                 <span>FLY</span>
             </div>
             <p>Modelo Relacional 3FN para Sistema de Aerolínea</p>
-            <p class="footer-meta">PostgreSQL 16 • 12 Módulos • 76 Tablas • 100+ FKs • 3FN</p>
+            <p class="footer-meta">PostgreSQL 16 · 12 Módulos · 76 Tablas · 100+ FKs · Seed Canónico ✓ · Volumétrico pendiente</p>
         </div>
     </footer>
 

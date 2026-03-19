@@ -295,7 +295,7 @@ a {
    ============================================ */
 .stats {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 2rem;
     padding: 4rem 5%;
     background: var(--bg-secondary);
@@ -544,10 +544,8 @@ a {
 
 .downloads-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
 }
 
 .download-card {
@@ -593,6 +591,148 @@ a {
     color: var(--accent-blue-light);
     font-family: var(--font-mono);
     margin-bottom: 1.5rem;
+}
+
+/* Download badge */
+.download-badge {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+}
+.download-badge.done {
+    background: rgba(16, 185, 129, 0.12);
+    color: #34D399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.download-badge.active {
+    background: rgba(245, 158, 11, 0.12);
+    color: #FBBF24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* ============================================
+   Project Status Section
+   ============================================ */
+.project-status {
+    padding: 5rem 5%;
+    background: var(--bg-primary);
+}
+
+.status-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.status-phases {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.phase {
+    flex: 1;
+    min-width: 160px;
+    padding: 1.25rem 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    background: var(--bg-secondary);
+}
+
+.phase-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.phase-done {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.phase-active {
+    border-color: rgba(245, 158, 11, 0.5);
+    background: rgba(245, 158, 11, 0.05);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.1);
+}
+
+.phase-pending {
+    opacity: 0.55;
+}
+
+.phase-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #34D399;
+}
+
+.phase-active .phase-icon {
+    color: #FBBF24;
+}
+
+.phase-pending .phase-icon {
+    color: var(--text-muted);
+}
+
+.phase-name {
+    font-weight: 700;
+    font-size: 0.875rem;
+    margin-bottom: 0.4rem;
+    color: var(--text-primary);
+}
+
+.phase-detail {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+@keyframes pulseOpacity {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.pulse {
+    animation: pulseOpacity 2s ease-in-out infinite;
+    display: inline-block;
+}
+
+.status-flows {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.flow-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+}
+
+.flow-label {
+    font-weight: 700;
+    font-size: 0.875rem;
+    margin-bottom: 0.4rem;
+    color: var(--accent-blue-light);
+}
+
+.flow-route {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    line-height: 1.5;
 }
 
 /* ============================================
@@ -665,7 +805,11 @@ a {
     }
     
     .stats {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .status-flows {
+        grid-template-columns: 1fr;
     }
     
     .stat-number {
