@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: fly-bd-pg-5435
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-flydb}
+      POSTGRES_USER: ${POSTGRES_USER:-fly_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fly_admin_123}
+      TZ: ${TZ:-America/Bogota}
+      PGTZ: ${PGTZ:-America/Bogota}
+    ports:
+      - "5435:5432"
+    volumes:
+      - fly_bd_pgdata:/var/lib/postgresql/data
+      - ../../db/ddl/modelo_postgresql.sql:/docker-entrypoint-initdb.d/01_modelo_postgresql.sql:ro
+      - ../../db/seeds/00_seed_canonico.sql:/docker-entrypoint-initdb.d/02_seed_canonico.sql:ro
+      - ../../db/ddl:/workspace/ddl:ro
+      - ../../db/seeds:/workspace/seeds
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-fly_admin} -d ${POSTGRES_DB:-flydb}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  fly_bd_pgdata:
