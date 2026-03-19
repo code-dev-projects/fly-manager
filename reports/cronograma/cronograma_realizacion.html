@@ -190,8 +190,8 @@
   <main class="wrap">
     <section class="hero">
       <span class="eyebrow">Cronograma de Realizacion</span>
-      <h1>Ruta de ejecucion propuesta a partir del 19 de marzo de 2026</h1>
-      <p>Este cronograma refleja la secuencia recomendada para pasar del DDL validado hacia una base poblada, auditada y lista para explicar y refactorizar. Combina hitos ya ejecutados con las fases siguientes del pipeline de datos y evidencias.</p>
+      <h1>Estado de ejecucion al 19 de marzo de 2026</h1>
+      <p>El seed canonico fue completado junto con la politica cronologica y las validaciones post-seed. El cronograma refleja los hitos ejecutados y las fases pendientes del pipeline de datos hacia el seed volumetrico.</p>
       <div class="links">
         <a href="../../docs/planes/PLAN_FASE_DATOS_MASIVOS_Y_REPORTES.md">Plan maestro de fase</a>
         <a href="../../reports/html/funcionalidades_sistema.html">Informe funcional</a>
@@ -222,27 +222,27 @@
         <div class="cell"></div>
         <div class="cell"></div>
 
-        <div class="cell phase">2. Arquitectura de seeds<div class="meta">Reglas, orden de carga, excepciones y validacion post-seed</div></div>
+        <div class="cell phase">2. Arquitectura de seeds<div class="meta">Reglas, orden de carga, politica cronologica y validaciones post-seed</div></div>
+        <div class="cell"><div class="bar done">Completado</div></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+
+        <div class="cell phase">3. Seed canonico<div class="meta">3 flujos E2E completos: BOG-MIA-MAD, BOG-MDE, BOG-MIA</div></div>
+        <div class="cell"><div class="bar done">Completado</div></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+
+        <div class="cell phase">4. Seed volumetrico<div class="meta">Vuelos futuros, reservas adicionales, escala de volumetria</div></div>
         <div class="cell"><div class="bar run">En curso</div></div>
-        <div class="cell"><div class="bar run">Cierre de diseno</div></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-
-        <div class="cell phase">3. Seed canonico<div class="meta">Catalogos, geografia, actores base, parametros</div></div>
-        <div class="cell"></div>
-        <div class="cell"><div class="bar plan">Implementacion</div></div>
-        <div class="cell"><div class="bar plan">Ajustes</div></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-
-        <div class="cell phase">4. Seed volumetrico 1000+<div class="meta">Maestras, transaccionales y tablas puente</div></div>
-        <div class="cell"></div>
-        <div class="cell"></div>
         <div class="cell"><div class="bar plan">Construccion</div></div>
         <div class="cell"><div class="bar plan">Carga y tuning</div></div>
+        <div class="cell"></div>
         <div class="cell"></div>
         <div class="cell"></div>
 
@@ -255,9 +255,9 @@
         <div class="cell"></div>
 
         <div class="cell phase">6. Reportes y narrativa<div class="meta">HTML de funcionalidades, cronograma y soporte ejecutivo</div></div>
-        <div class="cell"><div class="bar done">Base lista</div></div>
-        <div class="cell"><div class="bar plan">Ampliacion</div></div>
-        <div class="cell"><div class="bar plan">Ajustes</div></div>
+        <div class="cell"><div class="bar done">Refinado</div></div>
+        <div class="cell"><div class="bar plan">Ajuste con volumetrico</div></div>
+        <div class="cell"></div>
         <div class="cell"></div>
         <div class="cell"></div>
         <div class="cell"></div>
@@ -282,19 +282,21 @@
 
     <section class="notes">
       <article class="note">
-        <h2>Camino critico pendiente</h2>
+        <h2>Hitos completados al 19-Mar</h2>
         <ul>
-          <li>El seed canonico debe cerrarse antes del seed volumetrico.</li>
-          <li>La auditoria estructural debe correr mientras se generan inserts para no postergar hallazgos.</li>
-          <li>La validacion integral depende de tener datos consistentes en reserva, ticket, pago e invoice.</li>
+          <li>Seed canonico cerrado con 3 flujos E2E completos (IE-007 resuelto).</li>
+          <li>Politica cronologica documentada y aplicada en todos los timestamps (IE-005 resuelto).</li>
+          <li>Validaciones post-seed reescritas con gate canonico de 6 fases (IE-009 resuelto).</li>
+          <li>Orden de carga topologico documentado como contrato operativo (IE-004 resuelto).</li>
         </ul>
       </article>
       <article class="note">
-        <h2>Riesgos a controlar durante la carga</h2>
+        <h2>Riesgos activos para el seed volumetrico</h2>
         <ul>
-          <li>Inflar catalogos cerrados puede romper realismo y se trata como excepcion controlada.</li>
-          <li>Las fechas sinteticas deben respetar cronologia comercial y operacional.</li>
-          <li>La narrativa ejecutiva debe mantenerse alineada con el DDL real y no con versiones historicas.</li>
+          <li>IE-001 activo: catalogos cerrados del dominio deben tratarse como excepcion, no inflarse para llegar a volumetria arbitraria.</li>
+          <li>IE-002 activo: documentos heredados con rutas previas a la reorganizacion deben marcarse o alinearse.</li>
+          <li>Las fechas del seed volumetrico deben respetar la politica: vuelos futuros entre 2026-03-20 y 2026-06-30.</li>
+          <li>Ejecutar `99_validaciones_post_seed.sql` despues de cada carga para confirmar consistencia.</li>
         </ul>
       </article>
     </section>

@@ -239,8 +239,8 @@
     <section class="hero">
       <div>
         <span class="eyebrow">Informe Arquitectonico Funcional</span>
-        <h1>Sistema FLY listo para explicacion ejecutiva y tecnica</h1>
-        <p>Este informe resume las capacidades visibles del modelo de datos validado en PostgreSQL 16, organizado bajo criterio 3FN y preparado para evolucionar hacia una fase de seeds masivos, auditoria estructural y refactorizacion controlada.</p>
+        <h1>Seed canonico validado. Volumetrico en curso.</h1>
+        <p>El seed canonico esta implementado con 3 flujos comerciales E2E completos sobre el modelo 3FN validado en PostgreSQL 16. El siguiente paso es el seed volumetrico. La politica cronologica y las validaciones post-seed ya estan cerradas.</p>
         <div class="links">
           <a href="../../app/landing/index.html">Abrir landing</a>
           <a href="../../architecture/canvas/canvas_arquitectura.html">Abrir canvas</a>
@@ -261,8 +261,8 @@
           restricciones UNIQUE
         </div>
         <div class="stat">
-          <strong>5435</strong>
-          puerto operativo del contenedor
+          <strong>3</strong>
+          flujos E2E validados
         </div>
       </div>
     </section>
@@ -359,8 +359,8 @@
       <article class="panel">
         <h2>Estado de preparacion</h2>
         <div class="highlight">
-          <p><strong>Listo hoy:</strong> DDL validado, contenedor estable en `5435`, repositorio reorganizado, landing y canvas sincronizados, estructura de seeds definida y validaciones post-seed listas para ejecutarse.</p>
-          <p><strong>Siguiente salto:</strong> poblar seeds canonicos y volumetricos con seguimiento estricto de inconsistencias antes de iniciar el refactor.</p>
+          <p><strong>Listo hoy:</strong> DDL validado, contenedor estable en puerto 5435, seed canonico implementado con 3 flujos E2E completos (BOG-MIA-MAD, BOG-MDE, BOG-MIA Economy), politica cronologica cerrada y validaciones post-seed reescritas con gate canonico preciso.</p>
+          <p><strong>Siguiente salto:</strong> implementar seed volumetrico (01_seed_volumetrico.sql) con vuelos futuros y escalar volumetria antes de iniciar el refactor.</p>
         </div>
         <table class="mini-table">
           <thead>
@@ -379,21 +379,36 @@
             <tr>
               <td>Contenedor Docker</td>
               <td>Operativo</td>
-              <td>Ejecucion local repetible</td>
+              <td>Ejecucion local repetible (5435)</td>
             </tr>
             <tr>
-              <td>Arquitectura de seeds</td>
-              <td>Definida</td>
-              <td>Base para inserts masivos</td>
+              <td>Seed canonico</td>
+              <td>Implementado</td>
+              <td>3 flujos E2E completos validados</td>
+            </tr>
+            <tr>
+              <td>Politica cronologica</td>
+              <td>Cerrada</td>
+              <td>Contrato obligatorio del seed volumetrico</td>
+            </tr>
+            <tr>
+              <td>Validaciones post-seed</td>
+              <td>Reescritas</td>
+              <td>Gate canonico con 6 fases de verificacion</td>
+            </tr>
+            <tr>
+              <td>Seed volumetrico</td>
+              <td>Pendiente</td>
+              <td>Escalar volumetria sobre base canonica</td>
             </tr>
             <tr>
               <td>Seguimiento de inconsistencias</td>
-              <td>Iniciado</td>
-              <td>Preparacion de refactor</td>
+              <td>Activo</td>
+              <td>IE-001 y IE-002 en seguimiento</td>
             </tr>
           </tbody>
         </table>
-        <p class="footnote">Fuente operativa: `db/ddl/modelo_postgresql.sql`, `db/seeds/99_validaciones_post_seed.sql` y `docs/validacion/SEGUIMIENTO_INCONSISTENCIAS_ESTRUCTURALES.md`.</p>
+        <p class="footnote">Fuente operativa: `db/seeds/00_seed_canonico.sql`, `db/seeds/99_validaciones_post_seed.sql`, `docs/validacion/SEGUIMIENTO_INCONSISTENCIAS_ESTRUCTURALES.md` y `docs/validacion/POLITICA_CRONOLOGIA_DATOS_SINTETICOS.md`.</p>
       </article>
 
       <article class="panel">
@@ -405,6 +420,8 @@
           <a href="../../docs/validacion/VALIDACION_DDL_3FN.md">Validacion DDL</a>
           <a href="../../docs/planes/PLAN_FASE_DATOS_MASIVOS_Y_REPORTES.md">Plan de fase</a>
           <a href="../../docs/validacion/SEGUIMIENTO_INCONSISTENCIAS_ESTRUCTURALES.md">Seguimiento estructural</a>
+          <a href="../../docs/validacion/POLITICA_CRONOLOGIA_DATOS_SINTETICOS.md">Politica cronologica</a>
+          <a href="../../docs/validacion/MATRIZ_ORDEN_CARGA_SEEDS.md">Matriz de carga</a>
           <a href="../cronograma/cronograma_realizacion.html">Cronograma</a>
         </div>
         <p class="footnote">Este informe esta pensado para mostrar funcionalidades, madurez actual y ruta inmediata de construccion.</p>
