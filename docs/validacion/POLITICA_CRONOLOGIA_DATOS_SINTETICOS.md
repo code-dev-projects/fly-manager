@@ -64,7 +64,7 @@ Miles acreditadas    → al momento del arribo real (actual_arrival_at)
 1. `scheduled_departure_at` < `actual_departure_at` solo si hay demora.
 2. `actual_departure_at` < `actual_arrival_at` siempre.
 3. `booked_at` < `issued_at` (ticket).
-4. `issued_at` (ticket) <= `authorized_at` (payment).
+4. `authorized_at` (payment) <= `issued_at` (ticket).
 5. `authorized_at` < `checked_in_at`.
 6. `checked_in_at` < `issued_at` (boarding_pass).
 7. `issued_at` (boarding_pass) < `validated_at` (boarding_validation).

@@ -71,7 +71,7 @@ ON CONFLICT (airline_id, flight_number, service_date) DO NOTHING;
 -- ============================================================
 -- SEGMENTOS DE VUELO
 -- FY120: BOG 09:00-05 → MDE 10:05-05  (65 min)
--- FY220: BOG 08:00-05 → MIA 12:15-04  (4h15 con ajuste DST)
+-- FY220: BOG 08:00-05 → MIA 12:15-04  (arribo local en EDT)
 -- FY712: MIA 16:00-04 → MAD 05:45+01  (conexion con FY220)
 -- ============================================================
 
@@ -108,7 +108,7 @@ SELECT
   ad.airport_id,
   1,
   (f.service_date::timestamp + INTERVAL '8 hours')  AT TIME ZONE 'America/Bogota',
-  (f.service_date::timestamp + INTERVAL '17 hours 15 minutes') AT TIME ZONE 'America/Bogota'
+  (f.service_date::timestamp + INTERVAL '12 hours 15 minutes') AT TIME ZONE 'America/New_York'
 FROM public.flight f
 JOIN public.airline al ON al.airline_id = f.airline_id AND al.airline_code = 'FLY'
 JOIN public.airport ao ON ao.iata_code = 'BOG'
@@ -333,7 +333,7 @@ SELECT
   'RES-VOL-' || lpad(g.i::text, 6, '0'),
   -- booked_at entre 2026-01-10 y 2026-03-08 (IE-005: antes de fecha base 2026-03-19)
   DATE '2026-01-10' + (g.i - 1) * 3 * INTERVAL '1 day',
-  NULL,
+  NULL::timestamptz,
   'Reserva volumetrica FY120 BOG-MDE pasajero ' || g.i
 FROM generate_series(1, 20) AS g(i)
 JOIN public.reservation_status rs ON rs.status_code  = 'CONFIRMED'
@@ -513,7 +513,7 @@ INSERT INTO public.invoice_line (
 SELECT
   ('AF000000-0000-0000-0000-' || lpad(((g.i - 1) * 3 + 1)::text, 12, '0'))::uuid,
   ('AE000000-0000-0000-0000-' || lpad(g.i::text, 12, '0'))::uuid,
-  NULL,
+  NULL::uuid,
   1,
   'Tarifa base Economy YB BOG-MDE',
   1.00,

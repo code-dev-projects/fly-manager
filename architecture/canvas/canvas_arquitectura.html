@@ -289,9 +289,9 @@
       <p><span class="tag tag-ok">VALIDADO</span> El DDL fue ejecutado completo en PostgreSQL real sin errores.</p>
       <p><span class="tag tag-ok">3FN</span> La estructura fue construida con reglas formales de normalizacion.</p>
       <p><span class="tag tag-ok">SEED CANONICO</span> 3 flujos E2E completos implementados y politica cronologica cerrada.</p>
-      <p><span class="tag tag-warn">PENDIENTE</span> Seed volumetrico (01_seed_volumetrico.sql) y auditoria estructural completa.</p>
+      <p><span class="tag tag-warn">EN CURSO</span> Seed volumetrico (01_seed_volumetrico.sql) en expansion y auditoria estructural completa pendiente.</p>
       <p><span class="tag tag-future">ROADMAP</span> Soft delete, auditoria transversal y particionamiento quedan fuera del release base.</p>
-      <p class="note">Seed canonico cierra IE-003, IE-005, IE-007 y IE-009. Pendientes activos: IE-001 y IE-002.</p>
+      <p class="note">Seed canonico cierra IE-005, IE-007 y IE-009. IE-003 sigue en seguimiento por cierre volumetrico. Pendientes activos: IE-001 y IE-002.</p>
     </section>
 
     <section>
@@ -420,7 +420,7 @@
         <li><span class="tag tag-ok">Cerrado</span> Seed canonico implementado con 3 flujos E2E completos y validaciones post-seed de 6 fases.</li>
         <li><span class="tag tag-risk">Alto</span> IE-001: catalogos cerrados del dominio no pueden inflarse arbitrariamente para volumetria — excepcion controlada activa.</li>
         <li><span class="tag tag-risk">Medio</span> IE-002: documentos heredados con rutas y referencias anteriores a la reorganizacion aun sin alinear completamente.</li>
-        <li><span class="tag tag-risk">Medio</span> Seed volumetrico pendiente — flujo punta a punta con datos de escala no probado aun.</li>
+        <li><span class="tag tag-risk">Medio</span> Seed volumetrico en curso — flujo punta a punta con datos de escala no probado aun.</li>
         <li><span class="tag tag-risk">Medio</span> Soft delete y auditoria transversal todavia no forman parte del esquema base.</li>
         <li><span class="tag tag-warn">Bajo</span> No se han ejecutado pruebas de rendimiento ni de volumen.</li>
       </ul>
@@ -461,12 +461,12 @@
           <tr>
             <td>3. Seed volumetrico</td>
             <td>Escalar con vuelos futuros (2026-03-20 a 2026-06-30) y reservas adicionales</td>
-            <td><span class="tag tag-warn">Pendiente</span> 01_seed_volumetrico.sql</td>
+            <td><span class="tag tag-warn">En curso</span> 01_seed_volumetrico.sql (capa inicial implementada)</td>
           </tr>
           <tr>
             <td>4. QA documental y auditoria</td>
             <td>Ejecutar 99_validaciones_post_seed.sql y cerrar IE-001 / IE-002</td>
-            <td><span class="tag tag-warn">Pendiente</span> Gate canonico disponible</td>
+            <td><span class="tag tag-warn">Pendiente</span> Gate volumetrico y cierre de inconsistencias</td>
           </tr>
           <tr>
             <td>5. Release tecnico</td>

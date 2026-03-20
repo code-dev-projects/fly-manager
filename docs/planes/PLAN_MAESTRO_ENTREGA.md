@@ -24,9 +24,9 @@ La meta operativa no es "hacer una demo", sino construir una fuente unica de ver
 ### 3.1 Entregables obligatorios
 
 - landing final en HTML/CSS/JS
-- `modelo_postgresql.sql`
-- `modelo_documentado.md`
-- `diccionario_datos.md`
+- `db/ddl/modelo_postgresql.sql`
+- `docs/datos/modelo_documentado.md`
+- `docs/datos/diccionario_datos.md`
 - baseline arquitectonico
 - matriz de consistencia
 - checklist de validacion del DDL
@@ -58,9 +58,9 @@ Actividades:
 
 Entregables:
 
-- `docs/BASELINE_ARQUITECTONICO.md`
-- `docs/MATRIZ_CONSISTENCIA_INICIAL.md`
-- `docs/PLAN_MAESTRO_ENTREGA.md`
+- `docs/arquitectura/BASELINE_ARQUITECTONICO.md`
+- `docs/arquitectura/MATRIZ_CONSISTENCIA_INICIAL.md`
+- `docs/planes/PLAN_MAESTRO_ENTREGA.md`
 
 Gate de salida:
 
@@ -83,7 +83,7 @@ Actividades:
 
 Entregables:
 
-- `docs/MODELO_CANONICO.md`
+- `docs/datos/MODELO_CANONICO.md`
 - diagrama ER definitivo
 - tabla de decisiones arquitectonicas de datos
 
@@ -108,7 +108,7 @@ Actividades:
 
 Entregables:
 
-- `modelo_postgresql.sql`
+- `db/ddl/modelo_postgresql.sql`
 - notas de implementacion del DDL
 
 Gate de salida:
@@ -131,7 +131,7 @@ Actividades:
 
 Entregables:
 
-- `docs/CHECKLIST_VALIDACION_DDL.md`
+- `docs/validacion/VALIDACION_DDL_3FN.md`
 - evidencia de ejecucion y hallazgos corregidos
 
 Gate de salida:
@@ -155,9 +155,9 @@ Actividades:
 
 Entregables:
 
-- `index.html`
-- `styles.css`
-- `script.js`
+- `app/landing/index.html`
+- `app/landing/styles.css`
+- `app/landing/script.js`
 - activos visuales y diagramas necesarios
 
 Gate de salida:
@@ -181,7 +181,7 @@ Actividades:
 
 Entregables:
 
-- `docs/CHECKLIST_RELEASE.md`
+- `docs/validacion/SEGUIMIENTO_INCONSISTENCIAS_ESTRUCTURALES.md`
 
 Gate de salida:
 
@@ -258,4 +258,3 @@ Hasta tener confirmacion formal en contra, se recomienda trabajar con estas regl
 - tomar `Sistema FLY` como nombre funcional provisional del sistema
 - retirar `SkyDB` del mensaje final salvo que se defina como marca oficial
 - tomar como objetivo la construccion de un modelo canonico estable antes de hablar de v3
-

@@ -533,11 +533,11 @@ INSERT INTO public.airport_regulation (airport_id, regulation_code, regulation_t
 SELECT ap.airport_id, seed.regulation_code, seed.regulation_title, seed.issuing_authority, seed.effective_from, seed.effective_to
 FROM (
   VALUES
-    ('BOG', 'SLOT-OPS', 'Ventanas operacionales y asignacion de slots', 'Aerocivil', DATE '2025-01-01', NULL),
-    ('MDE', 'WX-MIN', 'Minimos operacionales por meteorologia', 'Aerocivil', DATE '2025-01-01', NULL),
-    ('MIA', 'SEC-STER', 'Control de acceso a zona esteril', 'FAA', DATE '2025-01-01', NULL),
-    ('MAD', 'SCHENGEN-SEP', 'Segregacion Schengen y no Schengen', 'AENA', DATE '2025-01-01', NULL),
-    ('MEX', 'BAG-CTRL', 'Control de equipaje y trazabilidad', 'AFAC', DATE '2025-01-01', NULL)
+    ('BOG', 'SLOT-OPS', 'Ventanas operacionales y asignacion de slots', 'Aerocivil', DATE '2025-01-01', NULL::date),
+    ('MDE', 'WX-MIN', 'Minimos operacionales por meteorologia', 'Aerocivil', DATE '2025-01-01', NULL::date),
+    ('MIA', 'SEC-STER', 'Control de acceso a zona esteril', 'FAA', DATE '2025-01-01', NULL::date),
+    ('MAD', 'SCHENGEN-SEP', 'Segregacion Schengen y no Schengen', 'AENA', DATE '2025-01-01', NULL::date),
+    ('MEX', 'BAG-CTRL', 'Control de equipaje y trazabilidad', 'AFAC', DATE '2025-01-01', NULL::date)
   ) AS seed(iata_code, regulation_code, regulation_title, issuing_authority, effective_from, effective_to)
 JOIN public.airport ap
   ON ap.iata_code = seed.iata_code
@@ -567,9 +567,9 @@ INSERT INTO public.aircraft (airline_id, aircraft_model_id, registration_number,
 SELECT al.airline_id, am.aircraft_model_id, seed.registration_number, seed.serial_number, seed.in_service_on, seed.retired_on
 FROM (
   VALUES
-    ('FLY', 'A320N', 'HK-5500', 'FLY320001', DATE '2020-06-15', NULL),
-    ('FLY', 'B788', 'HK-7870', 'FLY787001', DATE '2021-09-01', NULL),
-    ('NVA', 'E190-E2', 'N803NV', 'NVA190001', DATE '2022-03-20', NULL)
+    ('FLY', 'A320N', 'HK-5500', 'FLY320001', DATE '2020-06-15', NULL::date),
+    ('FLY', 'B788', 'HK-7870', 'FLY787001', DATE '2021-09-01', NULL::date),
+    ('NVA', 'E190-E2', 'N803NV', 'NVA190001', DATE '2022-03-20', NULL::date)
 ) AS seed(airline_code, model_code, registration_number, serial_number, in_service_on, retired_on)
 JOIN public.airline al
   ON al.airline_code = seed.airline_code
@@ -1286,17 +1286,17 @@ FROM (
     ('70000000-0000-0000-0000-000000000001'::uuid,
      '35000000-0000-0000-0000-000000000001'::uuid,
      'TICKETED', 'WEB',
-     'RES-FY-001', TIMESTAMPTZ '2026-03-05 10:15:00-05', NULL,
+     'RES-FY-001', TIMESTAMPTZ '2026-03-05 10:15:00-05', NULL::timestamptz,
      'Viaje BOG-MIA-MAD Business JF'),
     ('70000000-0000-0000-0000-000000000002'::uuid,
      '35000000-0000-0000-0000-000000000002'::uuid,
      'TICKETED', 'MOBILE_APP',
-     'RES-FY-002', TIMESTAMPTZ '2026-03-10 07:00:00-05', NULL,
+     'RES-FY-002', TIMESTAMPTZ '2026-03-10 07:00:00-05', NULL::timestamptz,
      'Vuelo domestico BOG-MDE Economy YB'),
     ('70000000-0000-0000-0000-000000000003'::uuid,
      '35000000-0000-0000-0000-000000000003'::uuid,
      'TICKETED', 'WEB',
-     'RES-FY-003', TIMESTAMPTZ '2026-03-12 09:30:00-05', NULL,
+     'RES-FY-003', TIMESTAMPTZ '2026-03-12 09:30:00-05', NULL::timestamptz,
      'Vuelo BOG-MIA Economy YF')
 ) AS seed(res_id, customer_id, status_code, channel_code,
           reservation_code, booked_at, expires_at, notes)
@@ -1931,4 +1931,3 @@ JOIN public.loyalty_account la ON la.loyalty_account_id = seed.account_id
 ON CONFLICT (miles_transaction_id) DO NOTHING;
 
 COMMIT;
-

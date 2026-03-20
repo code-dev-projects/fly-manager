@@ -304,7 +304,7 @@
       <div>
         <span class="eyebrow">Informe Arquitectonico Funcional</span>
         <h1>Seed canonico validado. Volumetrico en curso.</h1>
-        <p>El seed canonico esta implementado con 3 flujos comerciales E2E completos sobre el modelo 3FN validado en PostgreSQL 16. El siguiente paso es el seed volumetrico. La politica cronologica y las validaciones post-seed ya estan cerradas.</p>
+        <p>El seed canonico esta implementado con 3 flujos comerciales E2E completos sobre el modelo 3FN validado en PostgreSQL 16. El seed volumetrico ya inicio con carga real y se encuentra en expansion por fases. La politica cronologica y las validaciones post-seed ya estan cerradas.</p>
         <div class="links">
           <a href="../../app/landing/index.html">Abrir landing</a>
           <a href="../../architecture/canvas/canvas_arquitectura.html">Abrir canvas</a>
@@ -424,7 +424,7 @@
         <h2>Estado de preparacion</h2>
         <div class="highlight">
           <p><strong>Listo hoy:</strong> DDL validado, contenedor estable en puerto 5435, seed canonico implementado con 3 flujos E2E completos (BOG-MIA-MAD, BOG-MDE, BOG-MIA Economy), politica cronologica cerrada y validaciones post-seed reescritas con gate canonico preciso.</p>
-          <p><strong>Siguiente salto:</strong> implementar seed volumetrico (01_seed_volumetrico.sql) con vuelos futuros y escalar volumetria antes de iniciar el refactor.</p>
+          <p><strong>Siguiente salto:</strong> expandir el seed volumetrico (01_seed_volumetrico.sql) hasta cerrar metas de volumen y cobertura del flujo de viaje antes de iniciar el refactor.</p>
         </div>
         <table class="mini-table">
           <thead>
@@ -462,8 +462,8 @@
             </tr>
             <tr>
               <td>Seed volumetrico</td>
-              <td>Pendiente</td>
-              <td>Escalar volumetria sobre base canonica</td>
+              <td>En curso</td>
+              <td>Capa inicial implementada; pendiente expansion de cobertura y escala</td>
             </tr>
             <tr>
               <td>Seguimiento de inconsistencias</td>
@@ -472,7 +472,7 @@
             </tr>
           </tbody>
         </table>
-        <p class="footnote">Fuente operativa: `db/seeds/00_seed_canonico.sql`, `db/seeds/99_validaciones_post_seed.sql`, `docs/validacion/SEGUIMIENTO_INCONSISTENCIAS_ESTRUCTURALES.md` y `docs/validacion/POLITICA_CRONOLOGIA_DATOS_SINTETICOS.md`.</p>
+        <p class="footnote">Fuente operativa: `db/seeds/00_seed_canonico.sql`, `db/seeds/01_seed_volumetrico.sql`, `db/seeds/99_validaciones_post_seed.sql`, `docs/validacion/SEGUIMIENTO_INCONSISTENCIAS_ESTRUCTURALES.md` y `docs/validacion/POLITICA_CRONOLOGIA_DATOS_SINTETICOS.md`.</p>
       </article>
 
       <article class="panel">

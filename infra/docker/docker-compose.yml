@@ -13,12 +13,8 @@ services:
       - "5435:5432"
     volumes:
       - fly_bd_pgdata:/var/lib/postgresql/data
-      # Orden de ejecucion automatica al iniciar contenedor NUEVO (o luego de down -v)
-      # Docker ejecuta los archivos en docker-entrypoint-initdb.d/ en orden lexicografico.
-      - ../../db/ddl/modelo_postgresql.sql:/docker-entrypoint-initdb.d/01_modelo_postgresql.sql:ro
-      - ../../db/seeds/00_seed_canonico.sql:/docker-entrypoint-initdb.d/02_seed_canonico.sql:ro
-      - ../../db/seeds/01_seed_volumetrico.sql:/docker-entrypoint-initdb.d/03_seed_volumetrico.sql:ro
-      - ../../db/seeds/99_validaciones_post_seed.sql:/docker-entrypoint-initdb.d/04_validaciones_post_seed.sql:ro
+      # Carga deterministica gestionada por infra/docker/recrear_instalacion_limpia.ps1
+      # (DDL + seeds + validaciones), sin depender de initdb automatico.
       # Workspace de trabajo manual (psql \i ...)
       - ../../db/ddl:/workspace/ddl:ro
       - ../../db/seeds:/workspace/seeds

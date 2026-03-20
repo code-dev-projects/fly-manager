@@ -116,13 +116,11 @@ docker exec -i fly-bd-pg-5435 psql -U fly_admin -d flydb -v ON_ERROR_STOP=1 -f /
 docker exec -i fly-bd-pg-5435 psql -U fly_admin -d flydb -v ON_ERROR_STOP=1 -f /workspace/seeds/99_validaciones_post_seed.sql
 ```
 
-## Bootstrap automatico
+## Bootstrap deterministico
 
-- una instalacion nueva del contenedor ejecuta automaticamente:
-- `01_modelo_postgresql.sql`
-- `02_seed_canonico.sql`
-
-Esto aplica solo cuando el volumen de PostgreSQL esta vacio.
+- la carga de `DDL + seeds + validaciones` se ejecuta de forma deterministica desde:
+- `infra/docker/recrear_instalacion_limpia.ps1`
+- este enfoque evita depender del `initdb` automatico para poblar datos.
 
 Para recrear una instalacion local limpia desde cero:
 
@@ -136,5 +134,5 @@ Set-Location infra\docker
 - el contenedor de trabajo ya esta disponible en `localhost:5435`
 - el DDL canonico ya se inicializa correctamente desde `db/ddl/modelo_postgresql.sql`
 - `00_seed_canonico.sql` ya puebla catalogos raiz, permisos, roles, monedas, impuestos y husos horarios
-- `01_seed_volumetrico.sql` sigue pendiente de implementacion real
-- la siguiente etapa es poblar geografia, actores, aerolinea, flota y flujo comercial canonico
+- `01_seed_volumetrico.sql` ya implementa una expansion inicial (vuelos futuros Q2, personas/clientes, reservas, pagos y facturas volumetricas)
+- la siguiente etapa es escalar cobertura de volumetria (`>=1000` donde aplique) y extender el flujo de viaje volumetrico (seat_assignment, baggage, check_in, boarding, refund y mantenimiento)
