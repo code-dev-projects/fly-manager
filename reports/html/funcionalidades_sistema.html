@@ -296,7 +296,7 @@
       <a href="funcionalidades_sistema.html" class="active">Funcionalidades</a>
       <a href="../cronograma/cronograma_realizacion.html">Cronograma</a>
     </div>
-    <span class="docnav-badge">Release congelado ✓ · S4.3 ✓</span>
+    <span class="docnav-badge">Release congelado ✓ · S4.6 ✓</span>
   </nav>
 
   <main class="wrap">
@@ -304,7 +304,7 @@
       <div>
         <span class="eyebrow">Informe Arquitectonico Funcional</span>
         <h1>Paquete tecnico estabilizado y trazable.</h1>
-        <p>El modelo 3FN no solo quedo validado con seed canonico y volumetrico; despues del release congelado se consolidaron migraciones versionadas, recovery local, baseline de performance, observabilidad minima y hardening de seguridad sin fallas bloqueantes.</p>
+        <p>El modelo 3FN no solo quedo validado con seed canonico y volumetrico; despues del release congelado se consolidaron migraciones versionadas, recovery local, baseline de performance, observabilidad minima, hardening de seguridad, menor privilegio operativo y aislamiento del admin bootstrap sin fallas bloqueantes.</p>
         <div class="links">
           <a href="../../app/landing/index.html">Abrir landing</a>
           <a href="../../architecture/canvas/canvas_arquitectura.html">Abrir canvas</a>
@@ -326,7 +326,7 @@
         </div>
         <div class="stat">
           <strong>0</strong>
-          fallas bloqueantes S4.3
+          fallas bloqueantes S4.6
         </div>
       </div>
     </section>
@@ -423,8 +423,8 @@
       <article class="panel">
         <h2>Estado de preparacion</h2>
         <div class="highlight">
-          <p><strong>Listo hoy:</strong> DDL validado, release congelado preservado, seed canonico y volumetrico cerrados, migraciones versionadas operativas, recovery probado, baseline de performance medido, observabilidad local en verde, seguridad local auditada, secretos runtime locales validados, logins operativos RW/RO/AUDIT conectables y menor privilegio operativo validado en scripts cotidianos.</p>
-          <p><strong>Siguiente salto:</strong> cerrar selectivamente los riesgos residuales locales y definir el siguiente corte del roadmap sin reabrir el baseline.</p>
+          <p><strong>Listo hoy:</strong> DDL validado, release congelado preservado, seed canonico y volumetrico cerrados, migraciones versionadas operativas, rebuild limpio unificado con journal, recovery probado, baseline de performance medido, observabilidad local en verde, seguridad local auditada, secretos runtime locales validados, logins operativos RW/RO/AUDIT conectables, menor privilegio operativo validado, publicacion local de PostgreSQL confinada a loopback y `fly_admin` aislado como break-glass interno.</p>
+          <p><strong>Siguiente salto:</strong> ejecutar la primera corrida remota del workflow `GitHub Actions` del delivery DB sobre el repo actual y registrar su evidencia, sin Liquibase ni repositorio separado en esta fase.</p>
         </div>
         <table class="mini-table">
           <thead>
@@ -443,7 +443,7 @@
             <tr>
               <td>Migraciones versionadas</td>
               <td>Operativas</td>
-              <td>Journal, `up/down` y rollback controlado</td>
+              <td>Journal, `up/down`, rollback controlado y rebuild limpio alineado</td>
             </tr>
             <tr>
               <td>Backup/restore local</td>
@@ -477,8 +477,8 @@
             </tr>
             <tr>
               <td>Riesgos residuales</td>
-              <td>Controlados</td>
-              <td>Superuser local y puerto expuesto al host</td>
+              <td>Cerrados al host</td>
+              <td>Bootstrap admin encapsulado por socket interno; red local confinada a `127.0.0.1`</td>
             </tr>
           </tbody>
         </table>

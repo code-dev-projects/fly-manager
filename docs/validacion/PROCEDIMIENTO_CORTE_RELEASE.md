@@ -19,7 +19,8 @@ Validacion completa (recomendada):
 .\infra\tools\ejecutar_gate_pre_release.ps1
 ```
 
-Este gate incluye: DDL + seeds + gates bloqueantes + regresion SQL post-seed + validacion documental de rutas.
+Este gate incluye: DDL base + migraciones versionadas + seeds + gates
+bloqueantes + regresion SQL post-seed + validacion documental de rutas.
 
 Validacion solo documental (si no deseas ejecutar Docker en ese momento):
 
@@ -63,3 +64,24 @@ git log -1 --oneline
 ```
 
 El hash de `git log -1` debe coincidir con el registrado en la nota ejecutiva.
+
+## Paso 6. Verificacion remota del pipeline oficial
+
+Despues del push, confirmar la corrida del workflow oficial en GitHub Actions:
+
+- Workflow:
+  - `.github/workflows/db-gate.yml`
+- Politica operativa:
+  - `docs/validacion/POLITICA_CICD_DB_GITHUB_ACTIONS.md`
+
+Resultado esperado:
+
+- `Quick Gate`: verde
+- `Full DB Gate`: verde
+
+Registrar la primera corrida remota en:
+
+- `docs/validacion/PLANTILLA_EVIDENCIA_PIPELINE_CI.md`
+
+Si el pipeline remoto falla, el corte no debe considerarse industrializado
+hasta ajustar la diferencia runner/local.

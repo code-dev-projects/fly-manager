@@ -97,6 +97,7 @@ try {
         "FLY_APP_RO_PASSWORD",
         "FLY_APP_AUDIT_PASSWORD"
     )
+    $allowedBindIps = @("127.0.0.1")
     $operationalUserKeys = @("FLY_APP_RW_USER", "FLY_APP_RO_USER", "FLY_APP_AUDIT_USER")
 
     $envExampleExists = Test-Path -LiteralPath $EnvExamplePath
@@ -124,6 +125,16 @@ try {
     }
 
     $postgresPassword = if ($localMap.Contains("POSTGRES_PASSWORD")) { [string]$localMap["POSTGRES_PASSWORD"] } else { "" }
+    $effectiveBindIp = if ($localMap.Contains("POSTGRES_BIND_IP") -and (-not [string]::IsNullOrWhiteSpace([string]$localMap["POSTGRES_BIND_IP"]))) { [string]$localMap["POSTGRES_BIND_IP"] } else { "127.0.0.1" }
+    $effectivePort = if ($localMap.Contains("POSTGRES_PORT") -and (-not [string]::IsNullOrWhiteSpace([string]$localMap["POSTGRES_PORT"]))) { [string]$localMap["POSTGRES_PORT"] } else { "5435" }
+    $bindIpIsLocalOnly = $allowedBindIps -contains $effectiveBindIp
+    $portIsNumeric = $effectivePort -match '^\d{2,5}$'
+    $portIsValidRange = $false
+    if ($portIsNumeric) {
+        $portNumber = [int]$effectivePort
+        $portIsValidRange = ($portNumber -ge 1024) -and ($portNumber -le 65535)
+    }
+    $composeUsesLocalBindParameter = (Test-Path -LiteralPath $ComposePath) -and (Select-String -Path $ComposePath -Pattern '\$\{POSTGRES_BIND_IP:-127\.0\.0\.1\}:\$\{POSTGRES_PORT:-5435\}:5432' -Quiet)
     $passwordLengths = @()
     $allPasswordsPlaceholderRemoved = $true
     $allPasswordsLengthOk = $true
@@ -246,6 +257,27 @@ try {
             note = "docker-compose debe resolver POSTGRES_PASSWORD desde entorno local"
         }
         [pscustomobject]@{
+            control = "compose_supports_local_bind_scope"
+            observed = $composeUsesLocalBindParameter
+            expected = "true"
+            status = $(if ($composeUsesLocalBindParameter) { "OK" } else { "FALLA" })
+            note = "docker-compose debe publicar PostgreSQL con bind configurable y loopback por defecto"
+        }
+        [pscustomobject]@{
+            control = "effective_bind_ip_is_local_only"
+            observed = $effectiveBindIp
+            expected = "127.0.0.1"
+            status = $(if ($bindIpIsLocalOnly) { "OK" } else { "FALLA" })
+            note = "El puerto publicado no debe abrirse en todas las interfaces del host"
+        }
+        [pscustomobject]@{
+            control = "effective_port_is_valid"
+            observed = $effectivePort
+            expected = "1024-65535"
+            status = $(if ($portIsValidRange) { "OK" } else { "FALLA" })
+            note = "El puerto configurado debe ser local y valido"
+        }
+        [pscustomobject]@{
             control = "env_example_keeps_placeholders"
             observed = $examplePlaceholdersPresent
             expected = "true"
@@ -260,6 +292,8 @@ try {
         [pscustomobject]@{ metric = "local_env_exists"; value = $localEnvExists }
         [pscustomobject]@{ metric = "postgres_password_length"; value = $postgresPasswordLength }
         [pscustomobject]@{ metric = "operational_passwords_min_length"; value = $operationalMinPasswordLength }
+        [pscustomobject]@{ metric = "effective_bind_ip"; value = $effectiveBindIp }
+        [pscustomobject]@{ metric = "effective_port"; value = $effectivePort }
         [pscustomobject]@{ metric = "failed_controls"; value = $failedControls.Count }
         [pscustomobject]@{ metric = "min_password_length"; value = $MinPasswordLength }
     )

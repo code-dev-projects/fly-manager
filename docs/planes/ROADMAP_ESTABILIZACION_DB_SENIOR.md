@@ -181,6 +181,63 @@ backlog post-release.
   - Se validaron `3` flujos no administrativos con `0` fallas bloqueantes.
   - Riesgos residuales permanecen en `fly_admin` superuser y puerto local expuesto.
 
+### Avance S4.4 (2026-03-20) - Implementado y validado
+
+- La recreacion limpia ahora integra:
+  - `db/ddl/modelo_postgresql.sql`
+  - `infra/tools/aplicar_migraciones.ps1`
+  - `db/seeds/00_seed_canonico.sql`
+  - `db/seeds/01_seed_volumetrico.sql`
+  - `db/seeds/99_validaciones_post_seed.sql`
+- El flujo deterministico local queda formalizado como:
+  - `DDL base -> migraciones versionadas -> seeds -> gates`
+- Politica y contrato actualizados en:
+  - `docs/validacion/POLITICA_MIGRACIONES_Y_ROLLBACK.md`
+  - `db/migrations/README.md`
+- Evidencia publicada y validada en:
+  - `docs/validacion/EVIDENCIA_UNIFICACION_BASELINE_MIGRACIONES_LOCAL_2026-03-20.md`
+- Resultado:
+  - El rebuild limpio ya no deja el journal fuera de la linea operativa.
+  - `schema_migration_journal` queda materializado desde la recreacion limpia.
+  - Se reduce la ambiguedad entre DDL historico y migraciones post-release.
+
+### Avance S4.5 (2026-03-20) - Implementado y validado
+
+- `infra/docker/docker-compose.yml` ahora publica PostgreSQL local mediante bind
+  configurable con loopback por defecto:
+  - `${POSTGRES_BIND_IP:-127.0.0.1}:${POSTGRES_PORT:-5435}:5432`
+- `infra/tools/inicializar_secretos_locales.ps1` y
+  `infra/tools/validar_secretos_locales.ps1` amplian el contrato local para
+  incluir `POSTGRES_BIND_IP` y `POSTGRES_PORT`.
+- `infra/tools/auditar_seguridad_postgres_local.ps1` ahora audita el alcance
+  efectivo del bind local y ya no marca como riesgo un puerto confinado a
+  `127.0.0.1`.
+- Evidencia publicada y validada en:
+  - `docs/validacion/EVIDENCIA_CONFINAMIENTO_RED_LOCAL_2026-03-20.md`
+- Resultado:
+  - El puerto local deja de quedar expuesto en todas las interfaces del host.
+  - El acceso PostgreSQL de desarrollo queda confinado a loopback por defecto.
+  - El riesgo residual principal se concentra en `fly_admin` como superuser local.
+
+### Avance S4.6 (2026-03-20) - Implementado y validado
+
+- `infra/tools/confinar_admin_bootstrap_local.ps1` encapsula el bootstrap admin
+  en `pg_hba.conf` con rechazo explicito sobre TCP.
+- `infra/tools/validar_admin_bootstrap_local.ps1` demuestra que:
+  - `fly_admin` permanece superuser solo por restriccion del motor.
+  - la conexion TCP queda rechazada.
+  - la conexion por socket local interno sigue disponible como break-glass.
+- `infra/docker/recrear_instalacion_limpia.ps1` y
+  `infra/tools/ejecutar_gate_pre_release.ps1` integran el confinamiento y su
+  validacion como parte del baseline local.
+- Evidencia publicada y validada en:
+  - `docs/validacion/EVIDENCIA_ADMIN_BOOTSTRAP_LOCAL_2026-03-20.md`
+  - `docs/validacion/EVIDENCIA_AUDITORIA_SEGURIDAD_LOCAL_2026-03-20.md`
+- Resultado:
+  - `fly_admin` deja de ser un residual expuesto al host.
+  - El admin bootstrap queda acotado a uso break-glass por socket local interno.
+  - El baseline local cierra S4 sin residuales expuestos.
+
 ### Gate de salida S4
 
 - `infra/docker/.env` presente y no versionado.
@@ -188,7 +245,10 @@ backlog post-release.
 - Gate arquitectonico bloquea si el secreto local es invalido.
 - Logins operativos locales provisionados y validados por conexion real.
 - Diagnostico, observabilidad y baseline operan por defecto con AUDIT/RO/RW.
-- Riesgos residuales reducidos y documentados.
+- La recreacion limpia materializa `schema_migration_journal` antes de seeds.
+- La publicacion local de PostgreSQL queda confinada a `127.0.0.1` por defecto.
+- El bootstrap admin queda aislado por TCP y disponible solo por socket local interno.
+- Sin residuales expuestos al host en el baseline local.
 
 ## Mapa de trazabilidad con backlog vigente
 
@@ -204,3 +264,34 @@ backlog post-release.
 
 Ninguna fase avanza sin evidencia concreta en `docs/validacion/` y sin pasar el
 gate operativo aplicable.
+
+## Frente F1 (Post-S4.6) - Industrializacion del Delivery DB
+
+### Objetivo
+
+Llevar el baseline ya estabilizado a un delivery automatizado por CI/CD sin
+reabrir el modelo ni introducir todavia un nuevo motor de migraciones.
+
+### Estado actual
+
+- ADR formal publicado en:
+  - `docs/arquitectura/ADR-001_ESTRATEGIA_DELIVERY_DB_POST_ESTABILIZACION.md`
+- Subplan operativo publicado en:
+  - `docs/planes/PLAN_INDUSTRIALIZACION_CICD_DB_2026-03-20.md`
+- Workflow inicial versionado en:
+  - `.github/workflows/db-gate.yml`
+- Plantilla de evidencia remota preparada en:
+  - `docs/validacion/PLANTILLA_EVIDENCIA_PIPELINE_CI.md`
+
+### Decisiones vigentes
+
+- El source of truth sigue siendo este repo.
+- No se adopta Liquibase en esta fase inmediata.
+- No se separa un segundo repositorio todavia.
+- La primera implementacion CI/CD debe industrializar los scripts ya validados.
+
+### Siguiente paso recomendado
+
+- Ejecutar la primera corrida remota de `F1.2` en GitHub Actions y ajustar
+  cualquier diferencia runner/local alrededor de `validar_migraciones.ps1` y
+  `ejecutar_gate_pre_release.ps1`, dejando evidencia formal del run.

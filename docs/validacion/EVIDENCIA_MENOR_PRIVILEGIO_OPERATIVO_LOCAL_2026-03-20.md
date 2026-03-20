@@ -8,7 +8,7 @@ AUDIT, RO y RW con privilegio minimo verificable.
 
 ## Contexto de ejecucion
 
-- Fecha de ejecucion: 2026-03-20 11:06:14 -05:00
+- Fecha de ejecucion: 2026-03-20 15:22:05 -05:00
 - Contenedor: fly-bd-pg-5435
 - Base validada: flydb
 - Login AUDIT: fly_local_audit
@@ -50,7 +50,7 @@ AUDIT, RO y RW con privilegio minimo verificable.
 | probe | ok | detail |
 | --- | --- | --- |
 | audit_stats | True | 1 |
-| audit_journal | True | missing |
+| audit_journal | True | schema_migration_journal |
 | audit_dml_denied | True | ERROR:  cannot execute DELETE in a read-only transaction |
 | audit_temp_denied | True | ERROR:  cannot execute CREATE TABLE in a read-only transaction |
 | ro_read | True | 1223 |

@@ -73,6 +73,33 @@ function New-MarkdownTable {
     return ($lines -join "`r`n")
 }
 
+function Get-EnvMap {
+    param([string]$Path)
+
+    $map = [ordered]@{}
+    if (-not (Test-Path -LiteralPath $Path)) {
+        return $map
+    }
+
+    foreach ($line in Get-Content -Path $Path) {
+        $trimmed = $line.Trim()
+        if ([string]::IsNullOrWhiteSpace($trimmed) -or $trimmed.StartsWith("#")) {
+            continue
+        }
+
+        $separator = $trimmed.IndexOf("=")
+        if ($separator -lt 1) {
+            continue
+        }
+
+        $key = $trimmed.Substring(0, $separator).Trim()
+        $value = $trimmed.Substring($separator + 1)
+        $map[$key] = $value
+    }
+
+    return $map
+}
+
 try {
     Write-Host ""
     Write-Host "======================================================"
@@ -128,13 +155,34 @@ SELECT EXISTS (
     } else {
         "f"
     }
+    $superuserLoginRows = Invoke-PsqlRows -Database "postgres" -Sql "SELECT rolname FROM pg_roles WHERE rolcanlogin AND rolsuper ORDER BY rolname;"
+    $superuserLoginNames = @(
+        $superuserLoginRows |
+            ForEach-Object { $_.Split("|")[0].Trim() } |
+            Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+    )
+    $bootstrapAdminRetained = @($superuserLoginNames) -contains $DbUser
+    $unexpectedSuperuserLoginNames = @($superuserLoginNames | Where-Object { $_ -ne $DbUser })
+    $unexpectedSuperuserCount = $unexpectedSuperuserLoginNames.Count
+    $hbaFile = Invoke-PsqlScalar -Database $DbName -Sql "SHOW hba_file;"
+    $hbaContent = docker exec $ContainerName cat $hbaFile
+    if ($LASTEXITCODE -ne 0) {
+        throw "No fue posible leer pg_hba.conf desde el contenedor."
+    }
+    $hbaJoined = ($hbaContent -join "`n")
+    $bootstrapAdminRejectIpv4 = $hbaJoined -match "(?m)^\s*host\s+all\s+$([regex]::Escape($DbUser))\s+0\.0\.0\.0/0\s+reject\s*$"
+    $bootstrapAdminRejectIpv6 = $hbaJoined -match "(?m)^\s*host\s+all\s+$([regex]::Escape($DbUser))\s+::/0\s+reject\s*$"
 
     $composeContent = if (Test-Path -LiteralPath $ComposePath) { Get-Content -Path $ComposePath -Raw } else { "" }
     $envExampleContent = if (Test-Path -LiteralPath $EnvExamplePath) { Get-Content -Path $EnvExamplePath -Raw } else { "" }
     $localEnvExists = Test-Path -LiteralPath $LocalEnvPath
+    $localEnvMap = Get-EnvMap -Path $LocalEnvPath
     $legacyWeakPasswordPresent = ($composeContent -match 'fly_admin_123') -or ($envExampleContent -match 'fly_admin_123')
     $placeholderPasswordPresent = ($composeContent -match 'local_change_me_before_shared_use') -or ($envExampleContent -match 'local_change_me_before_shared_use')
-    $portPublishedToHost = $composeContent -match '5435:5432'
+    $composeSupportsLoopbackBind = $composeContent -match '\$\{POSTGRES_BIND_IP:-127\.0\.0\.1\}:\$\{POSTGRES_PORT:-5435\}:5432'
+    $effectiveBindIp = if ($localEnvMap.Contains("POSTGRES_BIND_IP") -and (-not [string]::IsNullOrWhiteSpace([string]$localEnvMap["POSTGRES_BIND_IP"]))) { [string]$localEnvMap["POSTGRES_BIND_IP"] } else { "127.0.0.1" }
+    $effectivePort = if ($localEnvMap.Contains("POSTGRES_PORT") -and (-not [string]::IsNullOrWhiteSpace([string]$localEnvMap["POSTGRES_PORT"]))) { [string]$localEnvMap["POSTGRES_PORT"] } else { "5435" }
+    $portBoundToLoopback = @("127.0.0.1") -contains $effectiveBindIp
 
     $controls = @(
         [pscustomobject]@{
@@ -194,11 +242,32 @@ SELECT EXISTS (
             note = "Audit debe poder leer estadisticas globales"
         }
         [pscustomobject]@{
-            control = "superuser_login_present"
-            observed = $superuserLogins
-            expected = "0 ideal"
-            status = $(if ($superuserLogins -eq 0) { "OK" } else { "RIESGO" })
-            note = "Hoy persiste al menos un login superuser"
+            control = "bootstrap_admin_superuser_retained"
+            observed = $bootstrapAdminRetained
+            expected = "true"
+            status = $(if ($bootstrapAdminRetained) { "OK" } else { "FALLA" })
+            note = "El bootstrap admin debe permanecer superuser por restriccion del motor"
+        }
+        [pscustomobject]@{
+            control = "bootstrap_admin_tcp_reject_ipv4_present"
+            observed = $bootstrapAdminRejectIpv4
+            expected = "true"
+            status = $(if ($bootstrapAdminRejectIpv4) { "OK" } else { "FALLA" })
+            note = "Debe existir regla reject IPv4 para el bootstrap admin"
+        }
+        [pscustomobject]@{
+            control = "bootstrap_admin_tcp_reject_ipv6_present"
+            observed = $bootstrapAdminRejectIpv6
+            expected = "true"
+            status = $(if ($bootstrapAdminRejectIpv6) { "OK" } else { "FALLA" })
+            note = "Debe existir regla reject IPv6 para el bootstrap admin"
+        }
+        [pscustomobject]@{
+            control = "unexpected_superuser_login_count"
+            observed = $unexpectedSuperuserCount
+            expected = "0"
+            status = $(if ($unexpectedSuperuserCount -eq 0) { "OK" } else { "FALLA" })
+            note = "No deben existir logins superuser adicionales al bootstrap admin"
         }
         [pscustomobject]@{
             control = "repo_weak_password_literal_removed"
@@ -222,11 +291,18 @@ SELECT EXISTS (
             note = "El repo debe sugerir placeholder y no una clave operativa real"
         }
         [pscustomobject]@{
-            control = "host_port_published"
-            observed = $portPublishedToHost
-            expected = "controlado"
-            status = $(if ($portPublishedToHost) { "RIESGO" } else { "OK" })
-            note = "El puerto queda expuesto al host para desarrollo local"
+            control = "compose_supports_loopback_bind"
+            observed = $composeSupportsLoopbackBind
+            expected = "true"
+            status = $(if ($composeSupportsLoopbackBind) { "OK" } else { "FALLA" })
+            note = "docker-compose debe soportar bind local a loopback por defecto"
+        }
+        [pscustomobject]@{
+            control = "host_port_bound_to_loopback"
+            observed = "$effectiveBindIp`:$effectivePort"
+            expected = "127.0.0.1:<puerto>"
+            status = $(if ($portBoundToLoopback) { "OK" } else { "RIESGO" })
+            note = "El puerto publicado debe quedar confinado a loopback local"
         }
     )
 
@@ -250,7 +326,10 @@ SELECT EXISTS (
         [pscustomobject]@{ metric = "hard_fail_controls"; value = $failedControls.Count }
         [pscustomobject]@{ metric = "risk_controls"; value = $riskControls.Count }
         [pscustomobject]@{ metric = "superuser_login_roles"; value = $superuserLogins }
+        [pscustomobject]@{ metric = "unexpected_superuser_logins"; value = $(if ($unexpectedSuperuserCount -eq 0) { "none" } else { $unexpectedSuperuserLoginNames -join "," }) }
         [pscustomobject]@{ metric = "local_env_exists"; value = $localEnvExists }
+        [pscustomobject]@{ metric = "effective_bind_scope"; value = "$effectiveBindIp`:$effectivePort" }
+        [pscustomobject]@{ metric = "bootstrap_admin_hba_file"; value = $hbaFile }
     )
 
     $summaryTable = New-MarkdownTable -Rows $summaryRows -Headers @("metric", "value")
@@ -266,7 +345,8 @@ SELECT EXISTS (
 ## Objetivo
 
 Auditar el estado de privilegios, roles, secretos locales y superficie de
-exposicion del PostgreSQL de desarrollo despues del hardening inicial S3.3.
+exposicion del PostgreSQL de desarrollo despues del endurecimiento progresivo
+completado hasta S4.6.
 
 ## Contexto de ejecucion
 
@@ -275,6 +355,7 @@ exposicion del PostgreSQL de desarrollo despues del hardening inicial S3.3.
 - Base auditada: $DbName
 - Role admin actual: $DbUser
 - Roles de minimo privilegio esperados: $RuntimeRole, $ReadOnlyRole, $AuditRole
+- Archivo HBA auditado: $hbaFile
 
 ## Resumen observado
 
@@ -293,6 +374,7 @@ $controlsTable
 - Estado general: $(if ($failedControls.Count -eq 0) { "AUDITORIA SIN FALLAS BLOQUEANTES" } else { "AUDITORIA CON FALLAS" })
 - Fallas bloqueantes: $($failedControls.Count)
 - Riesgos controlados: $($riskControls.Count)
+- Bootstrap admin aislado por TCP: $(if ($bootstrapAdminRejectIpv4 -and $bootstrapAdminRejectIpv6) { "SI" } else { "NO" })
 "@
 
     Set-Content -Path $EvidencePath -Value $content -Encoding UTF8

@@ -123,5 +123,11 @@ Estado de verificacion tecnica (corte actual):
 - S4.1 gestion local de secretos: implementado y validado con control bloqueante sobre `infra/docker/.env` y placeholders runtime.
 - S4.2 logins operativos locales: implementado y validado con RW, RO y AUDIT conectables por password y heredando privilegios minimos.
 - S4.3 menor privilegio operativo: implementado y validado con diagnostico/observabilidad usando AUDIT y baseline separado entre RO/RW.
-- Riesgos residuales documentados: login superuser vigente y puerto local expuesto al host.
-- Siguiente foco recomendado: cerrar selectivamente riesgos residuales locales y preparar el siguiente corte del roadmap sin reabrir el baseline.
+- S4.4 unificacion del rebuild limpio: implementado y validado con contrato `DDL base -> migraciones versionadas -> seeds -> gates` y `schema_migration_journal` materializado desde la recreacion.
+- S4.5 confinamiento de red local: implementado y validado con bind loopback por defecto (`127.0.0.1`) y auditoria actualizada.
+- S4.6 aislamiento del admin bootstrap: implementado y validado con rechazo TCP en `pg_hba.conf`, validacion dedicada y uso break-glass por socket interno.
+- Estado residual actual: sin residuales expuestos al host en el baseline local.
+- Frente F1 industrializacion del delivery DB: abierto con ADR y subplan formal publicados.
+- Workflow inicial F1.2: versionado en `.github/workflows/db-gate.yml` para GitHub Actions.
+- Plantilla de evidencia remota F1.3: preparada en `docs/validacion/PLANTILLA_EVIDENCIA_PIPELINE_CI.md`.
+- Siguiente foco recomendado: ejecutar y ajustar la primera corrida remota del pipeline sin introducir aun Liquibase ni repo separado.

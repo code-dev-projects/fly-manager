@@ -11,11 +11,11 @@ services:
       TZ: ${TZ:-America/Bogota}
       PGTZ: ${PGTZ:-America/Bogota}
     ports:
-      - "5435:5432"
+      - "${POSTGRES_BIND_IP:-127.0.0.1}:${POSTGRES_PORT:-5435}:5432"
     volumes:
       - fly_bd_pgdata:/var/lib/postgresql/data
       # Carga deterministica gestionada por infra/docker/recrear_instalacion_limpia.ps1
-      # (DDL + seeds + validaciones), sin depender de initdb automatico.
+      # (DDL base + migraciones + seeds + validaciones), sin depender de initdb automatico.
       # Workspace de trabajo manual (psql \i ...)
       - ../../db/ddl:/workspace/ddl:ro
       - ../../db/seeds:/workspace/seeds

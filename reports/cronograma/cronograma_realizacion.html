@@ -254,8 +254,8 @@
   <main class="wrap">
     <section class="hero">
       <span class="eyebrow">Cronograma de Realizacion</span>
-      <h1>Evolucion del release congelado hacia S4.3</h1>
-      <p>El cronograma ya no se queda en el cierre tecnico del 19-Mar. Refleja el avance real posterior: gobierno operativo S2 completo, performance y observabilidad cerradas, seguridad local integrada al flujo limpio y menor privilegio operativo validado en Docker real.</p>
+      <h1>Evolucion del release congelado hacia S4.6</h1>
+      <p>El cronograma ya no se queda en el cierre tecnico del 19-Mar. Refleja el avance real posterior: gobierno operativo S2 completo, performance y observabilidad cerradas, seguridad local integrada al flujo limpio, menor privilegio operativo validado en Docker real, rebuild deterministico alineado con el journal, publicacion local de PostgreSQL confinada a loopback y admin bootstrap encapsulado por socket interno.</p>
       <div class="links">
         <a href="../../docs/planes/ROADMAP_ESTABILIZACION_DB_SENIOR.md">Roadmap senior</a>
         <a href="../../reports/html/funcionalidades_sistema.html">Informe funcional</a>
@@ -334,13 +334,13 @@
         <div class="cell"></div>
         <div class="cell"></div>
 
-        <div class="cell phase">8. S4 Continuidad operativa<div class="meta">Secretos, logins operativos y menor privilegio operativo cerrados; los riesgos residuales locales quedan controlados</div></div>
+        <div class="cell phase">8. S4 Continuidad operativa<div class="meta">Secretos, logins operativos, menor privilegio, unificacion DDL+migraciones, confinamiento de red local y aislamiento del admin bootstrap cerrados</div></div>
         <div class="cell"></div>
         <div class="cell"></div>
         <div class="cell"><div class="bar done">Secretos locales</div></div>
         <div class="cell"><div class="bar done">Logins operativos</div></div>
         <div class="cell"><div class="bar done">Menor privilegio</div></div>
-        <div class="cell"><div class="bar plan">Residuales</div></div>
+        <div class="cell"><div class="bar done">Admin bootstrap interno</div></div>
       </div>
     </section>
 
@@ -357,15 +357,17 @@
           <li>Secretos locales no versionados validados y convertidos en control bloqueante.</li>
           <li>Logins operativos RW, RO y AUDIT validados 3/3 por conexion real.</li>
           <li>Diagnostico/observabilidad/baseline validados con defaults AUDIT, RO y RW.</li>
+          <li>La recreacion limpia ahora deja `schema_migration_journal` materializado desde el rebuild.</li>
+          <li>El puerto PostgreSQL local ahora queda ligado a `127.0.0.1` por defecto.</li>
         </ul>
       </article>
       <article class="note">
-        <h2>Siguiente foco y riesgos controlados</h2>
+        <h2>Cierre del tramo y siguiente foco</h2>
         <ul>
-          <li><code>fly_admin</code> sigue como login superuser local mientras se completa la siguiente iteracion.</li>
-          <li>El puerto 5435 sigue expuesto al host como decision controlada de desarrollo.</li>
+          <li><code>fly_admin</code> permanece como bootstrap superuser solo por restriccion del motor y ya no acepta TCP.</li>
+          <li>El puerto 5435 sigue disponible para desarrollo, pero confinado a loopback por defecto.</li>
           <li><code>infra/docker/.env</code> y los logins operativos locales ya quedaron definidos fuera del repo y validados.</li>
-          <li>El siguiente tramo recomendado ya no es S4.3: corresponde cerrar selectivamente los riesgos residuales locales y definir el siguiente corte senior.</li>
+          <li>El siguiente tramo recomendado es ejecutar la primera corrida remota de `F1.2/F1.3` en GitHub Actions y registrar evidencia del pipeline sin introducir todavia Liquibase.</li>
         </ul>
       </article>
     </section>

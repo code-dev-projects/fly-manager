@@ -9,7 +9,7 @@ administracion, runtime operativo, lectura y auditoria.
 
 | Rol | Tipo | Login | Alcance | Uso esperado |
 |-----|------|-------|---------|--------------|
-| `fly_admin` | administrativo | Si | owner actual, migraciones, mantenimiento | Solo tareas de administracion y cambio de esquema |
+| `fly_admin` | administrativo | Si | bootstrap owner, migraciones, mantenimiento break-glass | Solo por socket local interno del contenedor |
 | `fly_app_rw` | grupo | No | DML completo sobre `public` + `TEMP` sobre la base local objetivo | Base para futuros logins de aplicacion y probes temporales seguros |
 | `fly_app_ro` | grupo | No | `SELECT` sobre `public` | Consultas operativas y lectura controlada |
 | `fly_app_audit` | grupo | No | `SELECT` + `pg_read_all_stats` | Auditoria, observabilidad y soporte |
@@ -31,3 +31,7 @@ administracion, runtime operativo, lectura y auditoria.
 6. Diagnostico y observabilidad deben resolver por defecto `FLY_APP_AUDIT_USER`.
 7. El baseline de lectura debe resolver `FLY_APP_RO_USER`; la prueba temporal
    segura debe ejecutarse con `FLY_APP_RW_USER`.
+8. La publicacion del puerto PostgreSQL local debe quedar confinada a loopback
+   (`127.0.0.1`) salvo excepcion documentada.
+9. `fly_admin` debe quedar bloqueado por TCP en `pg_hba.conf` y usarse solo
+   como cuenta break-glass por socket local interno.

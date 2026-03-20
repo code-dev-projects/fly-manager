@@ -9,7 +9,11 @@ despues del release congelado, con trazabilidad auditable y riesgo controlado.
 
 - Aplica a cambios en estructura de base de datos (tablas, indices, constraints,
   vistas o datos tecnicos de soporte de esquema).
-- No reemplaza DDL maestro historico; lo complementa desde el corte post-release.
+- No reemplaza el DDL maestro historico; lo complementa desde el corte
+  post-release.
+- El DDL maestro opera como baseline congelado; toda recreacion limpia debe
+  materializar despues el bootstrap del journal de migraciones antes de cargar
+  seeds.
 
 ## 3. Contrato tecnico obligatorio
 
@@ -27,13 +31,16 @@ despues del release congelado, con trazabilidad auditable y riesgo controlado.
 
 ## 4. Flujo operativo minimo
 
-1. Validar estructura y metadatos:
+1. En reconstruccion limpia:
+   - `.\infra\docker\recrear_instalacion_limpia.ps1`
+   - Contrato: `DDL base -> migraciones versionadas -> seeds -> gates`
+2. Validar estructura y metadatos:
    - `.\infra\tools\validar_migraciones.ps1`
-2. Aplicar pendientes en orden:
+3. Aplicar pendientes en orden:
    - `.\infra\tools\aplicar_migraciones.ps1`
-3. Ejecutar gate de corte:
+4. Ejecutar gate de corte:
    - `.\infra\tools\ejecutar_gate_pre_release.ps1`
-4. En contingencia, revertir ultima migracion (si procede):
+5. En contingencia, revertir ultima migracion (si procede):
    - `.\infra\tools\revertir_ultima_migracion.ps1`
 
 ## 5. Registro auditable
@@ -56,6 +63,7 @@ despues del release congelado, con trazabilidad auditable y riesgo controlado.
 
 ## 7. Evidencia requerida por corte
 
+- Evidencia de reconstruccion limpia con journal materializado.
 - Salida de `validar_migraciones.ps1`.
 - Salida de `aplicar_migraciones.ps1` (o `-DryRun` cuando corresponda).
 - Estado del gate integral pre-release.

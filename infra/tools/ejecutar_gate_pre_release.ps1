@@ -14,9 +14,11 @@ $migrationValidationScript = Join-Path $repoRoot "infra\tools\validar_migracione
 $secretsInitScript = Join-Path $repoRoot "infra\tools\inicializar_secretos_locales.ps1"
 $secretsValidationScript = Join-Path $repoRoot "infra\tools\validar_secretos_locales.ps1"
 $securityHardeningScript = Join-Path $repoRoot "infra\tools\endurecer_seguridad_postgres_local.ps1"
+$bootstrapAdminConfinementScript = Join-Path $repoRoot "infra\tools\confinar_admin_bootstrap_local.ps1"
 $operationalLoginsProvisionScript = Join-Path $repoRoot "infra\tools\provisionar_logins_operativos_locales.ps1"
 $operationalLoginsValidationScript = Join-Path $repoRoot "infra\tools\validar_logins_operativos_locales.ps1"
 $leastPrivilegeValidationScript = Join-Path $repoRoot "infra\tools\validar_menor_privilegio_operativo_local.ps1"
+$bootstrapAdminValidationScript = Join-Path $repoRoot "infra\tools\validar_admin_bootstrap_local.ps1"
 $securityAuditScript = Join-Path $repoRoot "infra\tools\auditar_seguridad_postgres_local.ps1"
 $checklistPath = Join-Path $repoRoot "docs\validacion\CHECKLIST_RELEASE_ARQUITECTONICO.md"
 $notePath = Join-Path $repoRoot "docs\planes\NOTA_EJECUTIVA_PRE_RELEASE_2026-03-19.md"
@@ -66,9 +68,11 @@ Invoke-Step -Label "Verificacion de archivos base" -Action {
     Assert-FileExists -Path $secretsInitScript
     Assert-FileExists -Path $secretsValidationScript
     Assert-FileExists -Path $securityHardeningScript
+    Assert-FileExists -Path $bootstrapAdminConfinementScript
     Assert-FileExists -Path $operationalLoginsProvisionScript
     Assert-FileExists -Path $operationalLoginsValidationScript
     Assert-FileExists -Path $leastPrivilegeValidationScript
+    Assert-FileExists -Path $bootstrapAdminValidationScript
     Assert-FileExists -Path $securityAuditScript
     Assert-FileExists -Path $checklistPath
     Assert-FileExists -Path $notePath
@@ -92,7 +96,7 @@ Invoke-Step -Label "Validacion de secretos locales" -Action {
 }
 
 if (-not $SkipDocker) {
-    Invoke-Step -Label "Validacion tecnica DDL + seeds + gates" -Action {
+    Invoke-Step -Label "Validacion tecnica DDL base + migraciones + seeds + gates" -Action {
         & $dockerScript
         if (-not $?) {
             throw "Fallo la validacion tecnica de datos."
@@ -117,6 +121,13 @@ if (-not $SkipDocker) {
         & $leastPrivilegeValidationScript | Out-Null
         if (-not $?) {
             throw "Fallo la validacion de menor privilegio operativo local."
+        }
+    }
+
+    Invoke-Step -Label "Validacion de confinamiento admin bootstrap local" -Action {
+        & $bootstrapAdminValidationScript | Out-Null
+        if (-not $?) {
+            throw "Fallo la validacion de admin bootstrap local."
         }
     }
 

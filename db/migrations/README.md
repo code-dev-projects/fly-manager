@@ -39,6 +39,16 @@ Cada archivo debe incluir encabezado:
 4. Validar gates SQL y documentales.
 5. Solo despues promover al siguiente entorno.
 
+## Contrato con el baseline limpio
+
+- `db/ddl/modelo_postgresql.sql` permanece como baseline congelado del release.
+- Toda recreacion limpia debe ejecutar despues `infra/tools/aplicar_migraciones.ps1`
+  antes de cargar seeds.
+- El resultado esperado del rebuild local es:
+  `DDL base -> migraciones versionadas -> seeds -> gates`.
+- Tras la recreacion limpia, `public.schema_migration_journal` debe existir y
+  registrar al menos la migracion bootstrap.
+
 ## Bootstrap actual
 
 - La primera migracion operativa es

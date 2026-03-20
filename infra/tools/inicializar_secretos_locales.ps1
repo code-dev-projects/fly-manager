@@ -140,6 +140,8 @@ try {
 
     if (-not $baseMap.Contains("POSTGRES_DB")) { $baseMap["POSTGRES_DB"] = "flydb" }
     if (-not $baseMap.Contains("POSTGRES_USER")) { $baseMap["POSTGRES_USER"] = "fly_admin" }
+    if (-not $baseMap.Contains("POSTGRES_BIND_IP")) { $baseMap["POSTGRES_BIND_IP"] = "127.0.0.1" }
+    if (-not $baseMap.Contains("POSTGRES_PORT")) { $baseMap["POSTGRES_PORT"] = "5435" }
     if (-not $baseMap.Contains("FLY_APP_RW_USER")) { $baseMap["FLY_APP_RW_USER"] = "fly_local_rw" }
     if (-not $baseMap.Contains("FLY_APP_RO_USER")) { $baseMap["FLY_APP_RO_USER"] = "fly_local_ro" }
     if (-not $baseMap.Contains("FLY_APP_AUDIT_USER")) { $baseMap["FLY_APP_AUDIT_USER"] = "fly_local_audit" }
@@ -173,6 +175,8 @@ try {
         "POSTGRES_DB=$($baseMap["POSTGRES_DB"])"
         "POSTGRES_USER=$($baseMap["POSTGRES_USER"])"
         "POSTGRES_PASSWORD=$($baseMap["POSTGRES_PASSWORD"])"
+        "POSTGRES_BIND_IP=$($baseMap["POSTGRES_BIND_IP"])"
+        "POSTGRES_PORT=$($baseMap["POSTGRES_PORT"])"
         "FLY_APP_RW_USER=$($baseMap["FLY_APP_RW_USER"])"
         "FLY_APP_RW_PASSWORD=$($baseMap["FLY_APP_RW_PASSWORD"])"
         "FLY_APP_RO_USER=$($baseMap["FLY_APP_RO_USER"])"

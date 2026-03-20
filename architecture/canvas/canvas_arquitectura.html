@@ -254,7 +254,7 @@
       <a href="../../reports/html/funcionalidades_sistema.html" style="color:rgba(255,255,255,.6);padding:6px 14px;border-radius:999px;font-size:.85rem;font-weight:600;text-decoration:none;">Funcionalidades</a>
       <a href="../../reports/cronograma/cronograma_realizacion.html" style="color:rgba(255,255,255,.6);padding:6px 14px;border-radius:999px;font-size:.85rem;font-weight:600;text-decoration:none;">Cronograma</a>
     </div>
-    <span style="font-size:.75rem;font-weight:700;padding:4px 12px;border-radius:999px;background:rgba(31,111,235,.18);color:#60a5fa;border:1px solid rgba(31,111,235,.35);white-space:nowrap;">v2-estable-3fn-s43</span>
+    <span style="font-size:.75rem;font-weight:700;padding:4px 12px;border-radius:999px;background:rgba(31,111,235,.18);color:#60a5fa;border:1px solid rgba(31,111,235,.35);white-space:nowrap;">v2-estable-3fn-s46</span>
   </nav>
 
   <header>
@@ -264,7 +264,7 @@
     </div>
     <div class="meta">
       <strong>2026-03-20</strong>
-      Version: v2-estable-3fn-s43<br>
+      Version: v2-estable-3fn-s46<br>
       Alcance: arquitectura de datos, operacion local y entrega documental<br>
       Fuente local: <code>C:/www/code-dev-projects/fly-manager/</code>
     </div>
@@ -290,13 +290,16 @@
       <p><span class="tag tag-ok">3FN</span> La estructura fue construida con reglas formales de normalizacion.</p>
       <p><span class="tag tag-ok">SEED CANONICO</span> 3 flujos E2E completos implementados y politica cronologica cerrada.</p>
       <p><span class="tag tag-ok">SEED VOLUMETRICO</span> Seed volumetrico (01_seed_volumetrico.sql) ejecuta completo con cobertura comercial + viaje en umbral operativo.</p>
-      <p><span class="tag tag-ok">S2</span> Migraciones versionadas, rollback y recovery local quedaron operativos y probados.</p>
+      <p><span class="tag tag-ok">S2</span> Migraciones versionadas, rollback, recovery local y journal bootstrap quedaron operativos y probados.</p>
       <p><span class="tag tag-ok">S3</span> Performance, observabilidad y seguridad local cerrados sin fallas bloqueantes.</p>
       <p><span class="tag tag-ok">S4.1</span> Secretos locales no versionados validados e integrados al gate arquitectonico.</p>
       <p><span class="tag tag-ok">S4.2</span> Logins operativos RW, RO y AUDIT validados por conexion real y menor privilegio.</p>
       <p><span class="tag tag-ok">S4.3</span> Diagnostico, observabilidad y baseline validados con defaults AUDIT/RO/RW.</p>
+      <p><span class="tag tag-ok">S4.4</span> La recreacion limpia ya ejecuta `DDL base -> migraciones -> seeds` y deja el journal materializado desde el baseline.</p>
+      <p><span class="tag tag-ok">S4.5</span> El puerto local de PostgreSQL queda confinado a `127.0.0.1` por defecto y ya no abre todas las interfaces del host.</p>
+      <p><span class="tag tag-ok">S4.6</span> `fly_admin` queda aislado por `pg_hba.conf`, rechazado sobre TCP y disponible solo por socket local interno como break-glass.</p>
       <p><span class="tag tag-future">ROADMAP</span> Soft delete, auditoria transversal y particionamiento quedan fuera del release base.</p>
-      <p class="note">El release ya no esta en pre-release: el baseline quedo congelado y luego estabilizado hasta S4.3. Riesgos residuales controlados: `fly_admin` superuser y puerto local expuesto al host. Siguiente foco sugerido: cierre selectivo de riesgos residuales locales y definicion del siguiente corte senior.</p>
+      <p class="note">El release ya no esta en pre-release: el baseline quedo congelado y luego estabilizado hasta S4.6. El bootstrap admin se mantiene solo por restriccion del motor, pero ya no queda expuesto sobre TCP.</p>
     </section>
 
     <section>
@@ -422,14 +425,14 @@
     <section class="span-2">
       <h2>Riesgos Vigentes</h2>
       <ul>
-        <li><span class="tag tag-ok">Cerrado</span> Migraciones versionadas, rollback y journal local activos.</li>
+        <li><span class="tag tag-ok">Cerrado</span> Migraciones versionadas, rollback, journal local activo y rebuild limpio alineado.</li>
         <li><span class="tag tag-ok">Cerrado</span> Recovery local probado con 78 tablas y 0 diferencias.</li>
         <li><span class="tag tag-ok">Cerrado</span> Baseline de performance y observabilidad minima en verde.</li>
         <li><span class="tag tag-ok">Cerrado</span> `infra/docker/.env` local validado, no versionado y bloqueado contra placeholders runtime.</li>
         <li><span class="tag tag-ok">Cerrado</span> Logins operativos locales RW/RO/AUDIT validados con conexion real y membresias correctas.</li>
         <li><span class="tag tag-ok">Cerrado</span> Diagnostico y observabilidad resuelven `AUDIT`; baseline separa `RO` para lectura y `RW` para probe temporal.</li>
-        <li><span class="tag tag-risk">Medio</span> Persiste `fly_admin` como login superuser administrativo local.</li>
-        <li><span class="tag tag-warn">Bajo</span> El puerto 5435 sigue publicado al host para desarrollo.</li>
+        <li><span class="tag tag-ok">Cerrado</span> `fly_admin` permanece solo como bootstrap break-glass y queda rechazado sobre TCP.</li>
+        <li><span class="tag tag-ok">Cerrado</span> El puerto 5435 sigue publicado al host para desarrollo, pero limitado a loopback.</li>
         <li><span class="tag tag-future">Roadmap</span> Soft delete, auditoria transversal y carga concurrente quedan como siguiente iteracion.</li>
       </ul>
     </section>
@@ -484,11 +487,16 @@
           <tr>
             <td>6. S4 Continuidad</td>
             <td>Secretos, logins operativos y menor privilegio operativo validados en scripts cotidianos</td>
-            <td><span class="tag tag-ok">Completado</span> S4.3 cerrado; quedan riesgos residuales controlados</td>
+            <td><span class="tag tag-ok">Completado</span> S4.6 cerrado; sin residuales expuestos al host</td>
+          </tr>
+          <tr>
+            <td>7. F1 Industrializacion</td>
+            <td>Formalizar ADR y montar CI/CD del delivery DB sobre el baseline ya estabilizado</td>
+            <td><span class="tag tag-warn">En curso</span> ADR, subplan, workflow GitHub Actions y plantilla de evidencia publicados; resta primera corrida remota</td>
           </tr>
         </tbody>
       </table>
-      <p class="note">Estado actual: release congelado ✓ → S2 gobierno operativo ✓ → S3.1 performance ✓ → S3.2 observabilidad ✓ → S3.3 seguridad ✓ → S4.1 secretos ✓ → S4.2 logins ✓ → S4.3 menor privilegio ✓.</p>
+      <p class="note">Estado actual: release congelado ✓ → S2 gobierno operativo ✓ → S3.1 performance ✓ → S3.2 observabilidad ✓ → S3.3 seguridad ✓ → S4.1 secretos ✓ → S4.2 logins ✓ → S4.3 menor privilegio ✓ → S4.4 baseline limpio + journal ✓ → S4.5 confinamiento de red local ✓ → S4.6 admin bootstrap interno only ✓ → F1 industrializacion CI/CD en curso con workflow GitHub Actions endurecido y evidencia remota pendiente.</p>
     </section>
 
   </main>

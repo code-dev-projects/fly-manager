@@ -8,7 +8,7 @@ los roles `fly_app_rw`, `fly_app_ro` y `fly_app_audit`.
 
 ## Contexto de ejecucion
 
-- Fecha de ejecucion: 2026-03-20 11:06:06 -05:00
+- Fecha de ejecucion: 2026-03-20 15:21:54 -05:00
 - Contenedor: fly-bd-pg-5435
 - Base auditada: flydb
 - Admin actual de bootstrap: fly_admin

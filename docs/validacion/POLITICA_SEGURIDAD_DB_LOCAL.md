@@ -32,6 +32,10 @@ higiene de secretos y auditoria verificable de accesos.
    y no en `fly_admin`.
 6. Diagnostico, observabilidad y baseline no deben volver a degradarse hacia
    `fly_admin` como default silencioso.
+7. El puerto PostgreSQL publicado por Docker debe quedar ligado a loopback
+   (`127.0.0.1`) por defecto, no a todas las interfaces del host.
+8. El bootstrap admin debe permanecer como superuser solo por restriccion del
+   motor y quedar aislado por `pg_hba.conf` para uso break-glass interno.
 
 ## 5. Flujo recomendado
 
@@ -43,12 +47,16 @@ higiene de secretos y auditoria verificable de accesos.
    - `.\infra\tools\provisionar_logins_operativos_locales.ps1`
 4. Validar logins operativos:
    - `.\infra\tools\validar_logins_operativos_locales.ps1`
-5. Validar menor privilegio operativo:
+5. Confinar admin bootstrap:
+   - `.\infra\tools\confinar_admin_bootstrap_local.ps1`
+6. Validar menor privilegio operativo:
    - `.\infra\tools\validar_menor_privilegio_operativo_local.ps1`
-6. Ejecutar auditoria:
+7. Validar admin bootstrap:
+   - `.\infra\tools\validar_admin_bootstrap_local.ps1`
+8. Ejecutar auditoria:
    - `.\infra\tools\auditar_seguridad_postgres_local.ps1`
-7. Revisar evidencia publicada en `docs/validacion/`.
-8. Para reconstruccion completa, `.\infra\docker\recrear_instalacion_limpia.ps1`
+9. Revisar evidencia publicada en `docs/validacion/`.
+10. Para reconstruccion completa, `.\infra\docker\recrear_instalacion_limpia.ps1`
    debe dejar la base recreada con hardening y auditoria ya ejecutados.
 
 ## 6. Criterio de salida inicial S3.3
@@ -58,5 +66,7 @@ higiene de secretos y auditoria verificable de accesos.
 - `PUBLIC` sin `CONNECT` sobre la base local objetivo.
 - `PUBLIC` sin `USAGE/CREATE` sobre schema `public`.
 - Diagnostico/observabilidad/baseline operan por defecto con logins no administrativos.
+- Publicacion del puerto local confinada a loopback por defecto.
+- `fly_admin` bloqueado por TCP y disponible solo por socket local interno.
 - Evidencia de auditoria sin fallas bloqueantes.
-- Riesgos residuales documentados.
+- Sin residuales expuestos al host en el baseline local.

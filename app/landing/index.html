@@ -38,14 +38,14 @@
         </nav>
         
         <div class="hero-content">
-            <div class="hero-badge">PostgreSQL 16 · 12 Módulos · 76 Tablas · 3FN · Release Congelado ✓ · S4.3 Continuidad ✓</div>
+            <div class="hero-badge">PostgreSQL 16 · 12 Módulos · 76 Tablas · 3FN · Release Congelado ✓ · S4.6 Continuidad ✓</div>
             <h1 class="hero-title">
                 Modelo Relacional<br>
                 <span class="gradient-text">Sistema de Aerolínea</span>
             </h1>
             <p class="hero-description">
                 Arquitectura relacional 3FN validada y luego estabilizada sobre PostgreSQL 16 con
-                migraciones versionadas, recovery probado, baseline de performance, observabilidad mínima
+                migraciones versionadas, rebuild limpio alineado con journal, recovery probado, baseline de performance, observabilidad mínima
                 y hardening local de seguridad ya integrados al flujo operativo.
             </p>
             <div class="hero-actions">
@@ -174,7 +174,7 @@
                 <path d="M20 4L8 12V20C8 29.4 13.2 37.8 20 40C26.8 37.8 32 29.4 32 20V12L20 4Z" fill="#10B981" opacity="0.2" stroke="#10B981" stroke-width="2"/>
                 <path d="M13 20L18 25L27 14" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span class="stat-number">S4.3</span>
+            <span class="stat-number">S4.6</span>
             <span class="stat-label">Estabilización</span>
         </div>
     </section>
@@ -219,8 +219,8 @@
             <div class="phase-arrow">→</div>
             <div class="phase phase-done">
                 <div class="phase-icon">✓</div>
-                <div class="phase-name">S4.3 Continuidad</div>
-                <div class="phase-detail">Menor privilegio operativo validado en diagnóstico, observabilidad y baseline</div>
+                <div class="phase-name">S4.6 Continuidad</div>
+                <div class="phase-detail">Puerto PostgreSQL confinado a `127.0.0.1` y admin bootstrap aislado como break-glass interno</div>
             </div>
         </div>
         <div class="status-flows">
@@ -234,7 +234,7 @@
             </div>
             <div class="flow-card">
                 <div class="flow-label">Observabilidad + Seguridad + Accesos</div>
-                <div class="flow-route">waiting_locks 0 · idle 0 · 3 flujos no-admin OK · riesgos residuales 2</div>
+                <div class="flow-route">waiting_locks 0 · idle 0 · journal materializado en rebuild · bind 127.0.0.1 · 3 flujos no-admin OK · residuales expuestos 0</div>
             </div>
         </div>
     </section>
@@ -267,7 +267,7 @@
             <article class="stability-card">
                 <span class="stability-stage">S2 · Gobierno operativo</span>
                 <h3>Operación repetible y recuperable</h3>
-                <p>La base local dejó de depender de memoria tribal y ahora tiene migraciones versionadas, rollback y recuperación comprobada.</p>
+                <p>La base local dejó de depender de memoria tribal y ahora tiene migraciones versionadas, rollback, recuperación comprobada y rebuild limpio con journal materializado.</p>
                 <ul class="stability-list">
                     <li>Migraciones `up/down` con journal bootstrap</li>
                     <li>Prueba de recuperación con 78 tablas y 0 diferencias</li>
@@ -299,7 +299,7 @@
             <article class="stability-card current">
                 <span class="stability-stage">S4 · Continuidad operativa</span>
                 <h3>Menor privilegio operativo cerrado</h3>
-                <p>S4 ya cubre secretos locales, accesos operativos y defaults no administrativos: el entorno bloquea placeholders, exige `.env` valido y ejecuta diagnostico, observabilidad y baseline con AUDIT/RO/RW.</p>
+                <p>S4 ya cubre secretos locales, accesos operativos y defaults no administrativos: el entorno bloquea placeholders, exige `.env` valido, aísla el admin bootstrap por TCP y ejecuta diagnostico, observabilidad y baseline con AUDIT/RO/RW. El siguiente frente natural ya es F1: industrializacion CI/CD del delivery DB, con workflow de GitHub Actions endurecido y primera corrida remota pendiente de evidencia.</p>
                 <ul class="stability-list">
                     <li>`infra/docker/.env` local no versionado validado por gate</li>
                     <li>RW, RO y AUDIT conectables por password con roles heredados</li>
@@ -307,8 +307,8 @@
                 </ul>
                 <div class="stability-metrics">
                     <span>3 flujos no-admin</span>
-                    <span>2 riesgos residuales</span>
-                    <span>S4.3 ✓</span>
+                    <span>0 residuales expuestos</span>
+                    <span>S4.6 ✓</span>
                 </div>
             </article>
         </div>
@@ -1055,7 +1055,7 @@
                 </div>
                 <div class="download-badge done">Actualizado</div>
                 <h3>Cronograma de Realización</h3>
-                <p>Vista evolutiva del release congelado hacia S2, S3 y S4.3, con continuidad operativa ya validada y riesgos residuales controlados.</p>
+                <p>Vista evolutiva del release congelado hacia S2, S3 y S4.6, con continuidad operativa validada, baseline limpio unificado, red local confinada y admin bootstrap encapsulado.</p>
                 <span class="download-format">HTML (.html)</span>
                 <a href="../../reports/cronograma/cronograma_realizacion.html" class="btn btn-primary">Abrir Cronograma</a>
             </div>
