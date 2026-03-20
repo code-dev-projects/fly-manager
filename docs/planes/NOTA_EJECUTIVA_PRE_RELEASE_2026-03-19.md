@@ -32,9 +32,9 @@ El paquete arquitectonico FLY queda en estado **APTO PARA PRE-RELEASE** con:
 2. Registrar hash de congelamiento y fecha/hora local.
 3. Asociar esta nota al hash de congelamiento.
 
-## Registro de congelamiento (pendiente de completar por responsable Git)
+## Registro de congelamiento
 
-- Rama de integracion:
-- Hash del commit:
-- Fecha/hora del commit:
-- Responsable:
+- Rama de integracion: `codex/develop`
+- Hash del commit: `f5db6f01932725056d1d1c6b0b126dce7870ad91` (`f5db6f0`)
+- Fecha/hora del commit: `2026-03-19T20:18:20-05:00`
+- Responsable: `Jesús Ariel González Bonilla`
