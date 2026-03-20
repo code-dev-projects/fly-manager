@@ -11,7 +11,7 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 - Seed canonico cerrado con flujo E2E funcional.
 - Seed volumetrico cerrado en umbral operativo `1000+` para entidades aplicables.
 - Validaciones post-seed extendidas con gate canonico + gate volumetrico bloqueante.
-- Narrativa documental cerrada y etapa de pre-release arquitectonico en ejecucion.
+- Narrativa documental cerrada y release arquitectonico congelado con hash de corte.
 
 ## 3. Estado por fase del Plan Maestro
 
@@ -50,14 +50,14 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 
 ### Fase 6. Release arquitectonico
 
-- Estado: En curso.
-- Evidencia: checklist de release + backlog post-release ya formalizados.
-- Gap: congelamiento final por hash/fecha y nota ejecutiva de corte.
+- Estado: Cerrada.
+- Evidencia: checklist en estado `RELEASE CONGELADO`, nota ejecutiva con hash de corte y gate integral en verde.
+- Gap: ninguno bloqueante.
 
 ## 4. Brechas activas a cerrar
 
-1. Congelar paquete final con hash y fecha de corte para release tecnico.
-2. Emitir nota ejecutiva de pre-release con enlaces de evidencia.
+1. Ejecutar backlog post-release no bloqueante segun prioridad.
+2. Ejecutar roadmap de estabilizacion senior por fases (`docs/planes/ROADMAP_ESTABILIZACION_DB_SENIOR.md`).
 
 ## 5. Plan operativo recomendado (continuacion)
 
@@ -88,13 +88,13 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 - Cerrar IE en seguimiento que impacten lectura ejecutiva.
 - Congelar paquete tecnico y registrar backlog de refactor posterior.
 - Salida esperada: paquete listo para entrega tecnica y explicacion ejecutiva.
-- Estado actual: En curso con checklist `docs/validacion/CHECKLIST_RELEASE_ARQUITECTONICO.md` y backlog `docs/planes/BACKLOG_REFACTOR_POST_RELEASE.md`.
+- Estado actual: Completado con checklist `docs/validacion/CHECKLIST_RELEASE_ARQUITECTONICO.md` y nota ejecutiva `docs/planes/NOTA_EJECUTIVA_PRE_RELEASE_2026-03-19.md`.
 
 ## 6. Prioridad de fixes (orden de ejecucion)
 
-1. P0: Congelamiento final de paquete (hash + fecha + nota ejecutiva).
-2. P1: Validacion final de narrativa previa a entrega.
-3. P2: Ejecucion planificada del backlog post-release no bloqueante.
+1. P0: Ejecutar BR-003 (higiene de nomenclatura residual) sin afectar baseline historico.
+2. P1: Operar plantilla unica de evidencia de release (BR-004) en siguientes cortes.
+3. P2: Mantener regresion SQL post-seed automatizada como control permanente (BR-005).
 
 ## 7. Definicion de listo para continuar
 
@@ -109,4 +109,4 @@ Estado de verificacion tecnica (corte actual):
 - Condicion 1: cumplida.
 - Condicion 2: cumplida.
 - Condicion 3: cumplida tras cierre de ajustes del Tramo C.
-- Condicion 4 (release): en curso con checklist de pre-release activo.
+- Condicion 4 (release): cumplida con congelamiento documentado.

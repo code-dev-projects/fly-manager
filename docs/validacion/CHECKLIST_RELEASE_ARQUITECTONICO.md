@@ -25,13 +25,16 @@ sin contradicciones entre DDL, seeds, validaciones y narrativa documental.
 | RL-07 | Backlog post-release documentado para deuda no bloqueante | `docs/planes/BACKLOG_REFACTOR_POST_RELEASE.md` | OK |
 | RL-08 | Rutas documentales sin referencias faltantes | `infra/tools/validar_rutas_docs.ps1` | OK |
 | RL-09 | Gate operativo de pre-release ejecutable en un solo comando | `infra/tools/ejecutar_gate_pre_release.ps1` | OK |
+| RL-10 | Acta de congelamiento emitida con checksums de artefactos | `docs/validacion/ACTA_CONGELAMIENTO_RELEASE_2026-03-19.md` | OK |
+| RL-11 | Regresion SQL post-seed automatizada y sin fallas | `infra/tools/ejecutar_regresion_post_seed.ps1` + `infra/sql/regresion_post_seed.sql` | OK |
 
 ## Resumen de resultado del corte
 
-- Estado del gate: `APTO PARA PRE-RELEASE`
+- Estado del gate: `RELEASE CONGELADO`
 - Bloqueantes abiertos: `0`
 - Excepciones controladas: `1` (catalogos cerrados vs volumen uniforme)
 - Hallazgos en seguimiento no bloqueantes: `0`
+- Commit de congelamiento: `8b31fdc` (`2026-03-19T20:20:09-05:00`)
 
 ## Criterio de congelamiento final
 

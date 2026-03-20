@@ -28,3 +28,6 @@ preservando el principio de "release estable primero, refactor despues".
 - Avances ya aplicados en el corte 2026-03-19:
 - BR-001 implementado en `docs/arquitectura/BASELINE_ARQUITECTONICO.md` y `docs/arquitectura/MATRIZ_CONSISTENCIA_INICIAL.md` con etiquetado historico.
 - BR-002 implementado mediante `infra/tools/validar_rutas_docs.ps1`.
+- BR-004 implementado mediante `docs/validacion/PLANTILLA_EVIDENCIA_RELEASE.md` y uso en `docs/validacion/ACTA_CONGELAMIENTO_RELEASE_2026-03-19.md`.
+- BR-005 implementado mediante `infra/sql/regresion_post_seed.sql`, `infra/tools/ejecutar_regresion_post_seed.ps1` e integracion en `infra/tools/ejecutar_gate_pre_release.ps1`.
+- Roadmap de estabilizacion senior formalizado en `docs/planes/ROADMAP_ESTABILIZACION_DB_SENIOR.md`.

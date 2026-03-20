@@ -9,6 +9,7 @@ $ErrorActionPreference = "Stop"
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
 $dockerScript = Join-Path $repoRoot "infra\docker\recrear_instalacion_limpia.ps1"
 $docsScript = Join-Path $repoRoot "infra\tools\validar_rutas_docs.ps1"
+$regressionScript = Join-Path $repoRoot "infra\tools\ejecutar_regresion_post_seed.ps1"
 $checklistPath = Join-Path $repoRoot "docs\validacion\CHECKLIST_RELEASE_ARQUITECTONICO.md"
 $notePath = Join-Path $repoRoot "docs\planes\NOTA_EJECUTIVA_PRE_RELEASE_2026-03-19.md"
 
@@ -45,13 +46,14 @@ function Assert-TextFound {
 
 Write-Host ""
 Write-Host "======================================================"
-Write-Host "  FLY Manager - Gate de Pre-Release Arquitectonico"
+Write-Host "  FLY Manager - Gate Arquitectonico (Release/Post-Release)"
 Write-Host "======================================================"
 Write-Host ("  Repo: {0}" -f $repoRoot)
 Write-Host ""
 
 Invoke-Step -Label "Verificacion de archivos base" -Action {
     Assert-FileExists -Path $docsScript
+    Assert-FileExists -Path $regressionScript
     Assert-FileExists -Path $checklistPath
     Assert-FileExists -Path $notePath
     if (-not $SkipDocker) {
@@ -64,6 +66,13 @@ if (-not $SkipDocker) {
         & $dockerScript
         if ($LASTEXITCODE -ne 0) {
             throw "Fallo la validacion tecnica de datos."
+        }
+    }
+
+    Invoke-Step -Label "Regresion SQL post-seed" -Action {
+        & $regressionScript
+        if ($LASTEXITCODE -ne 0) {
+            throw "Fallo la regresion SQL post-seed."
         }
     }
 } else {
@@ -84,8 +93,8 @@ Invoke-Step -Label "Validacion de rutas documentales" -Action {
 Invoke-Step -Label "Chequeo de consistencia documental minima" -Action {
     Assert-TextFound `
         -Path $checklistPath `
-        -Pattern "APTO PARA PRE-RELEASE" `
-        -Message "El checklist no refleja estado APTO PARA PRE-RELEASE."
+        -Pattern "APTO PARA PRE-RELEASE|RELEASE CONGELADO" `
+        -Message "El checklist no refleja estado de corte valido (pre-release o release congelado)."
 
     Assert-TextFound `
         -Path $checklistPath `
@@ -94,14 +103,14 @@ Invoke-Step -Label "Chequeo de consistencia documental minima" -Action {
 
     Assert-TextFound `
         -Path $notePath `
-        -Pattern "APTO PARA PRE-RELEASE" `
-        -Message "La nota ejecutiva no refleja estado APTO PARA PRE-RELEASE."
+        -Pattern "APTO PARA PRE-RELEASE|RELEASE CONGELADO" `
+        -Message "La nota ejecutiva no refleja estado de corte valido (pre-release o release congelado)."
 }
 
 Write-Host ""
 Write-Host "======================================================"
-Write-Host "  GATE PRE-RELEASE: OK"
-Write-Host "  Siguiente paso: commit manual + registrar hash/fecha"
+Write-Host "  GATE ARQUITECTONICO: OK"
+Write-Host "  Siguiente paso: commit manual y/o control de corte"
 Write-Host "======================================================"
 Write-Host ""
 Write-Host "Comando sugerido para corte rapido:"

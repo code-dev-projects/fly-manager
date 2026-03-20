@@ -19,6 +19,8 @@ Validacion completa (recomendada):
 .\infra\tools\ejecutar_gate_pre_release.ps1
 ```
 
+Este gate incluye: DDL + seeds + gates bloqueantes + regresion SQL post-seed + validacion documental de rutas.
+
 Validacion solo documental (si no deseas ejecutar Docker en ese momento):
 
 ```powershell
@@ -61,4 +63,3 @@ git log -1 --oneline
 ```
 
 El hash de `git log -1` debe coincidir con el registrado en la nota ejecutiva.
-
