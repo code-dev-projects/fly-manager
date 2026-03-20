@@ -58,6 +58,7 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 
 1. Ejecutar backlog post-release no bloqueante segun prioridad.
 2. Ejecutar roadmap de estabilizacion senior por fases (`docs/planes/ROADMAP_ESTABILIZACION_DB_SENIOR.md`).
+3. Consolidar siguientes evidencias operativas de S2/S3 sin romper baseline ya estabilizado.
 
 ## 5. Plan operativo recomendado (continuacion)
 
@@ -110,3 +111,17 @@ Estado de verificacion tecnica (corte actual):
 - Condicion 2: cumplida.
 - Condicion 3: cumplida tras cierre de ajustes del Tramo C.
 - Condicion 4 (release): cumplida con congelamiento documentado.
+
+## 8. Continuidad post-corte senior
+
+- S2.1 migraciones versionadas: implementado y validado.
+- S2.2 backup/restore local: implementado y validado con evidencia de recuperacion.
+- S2.3 runbook inicial de incidentes: implementado.
+- S3.1 baseline de performance local: implementado y validado.
+- S3.2 observabilidad minima local: implementado y validado.
+- S3.3 hardening inicial de seguridad: implementado, auditado e integrado al flujo deterministico de recreacion limpia.
+- S4.1 gestion local de secretos: implementado y validado con control bloqueante sobre `infra/docker/.env` y placeholders runtime.
+- S4.2 logins operativos locales: implementado y validado con RW, RO y AUDIT conectables por password y heredando privilegios minimos.
+- S4.3 menor privilegio operativo: implementado y validado con diagnostico/observabilidad usando AUDIT y baseline separado entre RO/RW.
+- Riesgos residuales documentados: login superuser vigente y puerto local expuesto al host.
+- Siguiente foco recomendado: cerrar selectivamente riesgos residuales locales y preparar el siguiente corte del roadmap sin reabrir el baseline.

@@ -6,7 +6,8 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-flydb}
       POSTGRES_USER: ${POSTGRES_USER:-fly_admin}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fly_admin_123}
+      # Define POSTGRES_PASSWORD en infra/docker/.env para evitar depender de defaults.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local_change_me_before_shared_use}
       TZ: ${TZ:-America/Bogota}
       PGTZ: ${PGTZ:-America/Bogota}
     ports:
