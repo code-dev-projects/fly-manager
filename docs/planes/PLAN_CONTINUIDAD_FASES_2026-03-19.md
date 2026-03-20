@@ -11,7 +11,7 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 - Seed canonico cerrado con flujo E2E funcional.
 - Seed volumetrico cerrado en umbral operativo `1000+` para entidades aplicables.
 - Validaciones post-seed extendidas con gate canonico + gate volumetrico bloqueante.
-- Narrativa documental en ajuste final para reflejar este nuevo estado tecnico.
+- Narrativa documental cerrada y etapa de pre-release arquitectonico en ejecucion.
 
 ## 3. Estado por fase del Plan Maestro
 
@@ -50,13 +50,14 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 
 ### Fase 6. Release arquitectonico
 
-- Estado: Pendiente.
-- Gap: cierre de IE abiertos/en seguimiento + paquete final congelado.
+- Estado: En curso.
+- Evidencia: checklist de release + backlog post-release ya formalizados.
+- Gap: congelamiento final por hash/fecha y nota ejecutiva de corte.
 
 ## 4. Brechas activas a cerrar
 
-1. Cerrar hallazgos documentales remanentes (referencias historicas/rutas heredadas).
-2. Preparar paquete de pre-release con backlog de refactor posterior.
+1. Congelar paquete final con hash y fecha de corte para release tecnico.
+2. Emitir nota ejecutiva de pre-release con enlaces de evidencia.
 
 ## 5. Plan operativo recomendado (continuacion)
 
@@ -80,18 +81,20 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 - Alinear `landing`, `canvas`, `reportes` y `seguimiento` al mismo estado real.
 - Verificar que no existan afirmaciones de "pendiente" cuando ya hay implementacion parcial.
 - Salida esperada: narrativa unica y auditable.
+- Estado actual: Completado en corte documental.
 
 ### Tramo D. Pre-release arquitectonico
 
 - Cerrar IE en seguimiento que impacten lectura ejecutiva.
 - Congelar paquete tecnico y registrar backlog de refactor posterior.
 - Salida esperada: paquete listo para entrega tecnica y explicacion ejecutiva.
+- Estado actual: En curso con checklist `docs/validacion/CHECKLIST_RELEASE_ARQUITECTONICO.md` y backlog `docs/planes/BACKLOG_REFACTOR_POST_RELEASE.md`.
 
 ## 6. Prioridad de fixes (orden de ejecucion)
 
-1. P0: QA cruzado documental y consistencia de estado (Tramo C).
-2. P1: Ajustes de presentacion y refinamiento final para release.
-3. P2: Congelamiento de paquete y checklist de pre-release (Tramo D).
+1. P0: Congelamiento final de paquete (hash + fecha + nota ejecutiva).
+2. P1: Validacion final de narrativa previa a entrega.
+3. P2: Ejecucion planificada del backlog post-release no bloqueante.
 
 ## 7. Definicion de listo para continuar
 
@@ -106,3 +109,4 @@ Estado de verificacion tecnica (corte actual):
 - Condicion 1: cumplida.
 - Condicion 2: cumplida.
 - Condicion 3: cumplida tras cierre de ajustes del Tramo C.
+- Condicion 4 (release): en curso con checklist de pre-release activo.

@@ -255,7 +255,7 @@
     <section class="hero">
       <span class="eyebrow">Cronograma de Realizacion</span>
       <h1>Estado de ejecucion al 19 de marzo de 2026</h1>
-      <p>El seed canonico y el seed volumetrico quedaron cerrados con validaciones bloqueantes en verde. El cronograma refleja los hitos ejecutados y la fase actual de QA cruzado documental previa al release.</p>
+      <p>El seed canonico y el seed volumetrico quedaron cerrados con validaciones bloqueantes en verde. El cronograma refleja los hitos ejecutados y la fase actual de pre-release arquitectonico para congelar el paquete tecnico.</p>
       <div class="links">
         <a href="../../docs/planes/PLAN_FASE_DATOS_MASIVOS_Y_REPORTES.md">Plan maestro de fase</a>
         <a href="../../reports/html/funcionalidades_sistema.html">Informe funcional</a>
@@ -319,7 +319,7 @@
         <div class="cell"></div>
 
         <div class="cell phase">6. Reportes y narrativa<div class="meta">HTML de funcionalidades, cronograma y soporte ejecutivo</div></div>
-        <div class="cell"><div class="bar run">Ajuste QA cruzado</div></div>
+        <div class="cell"><div class="bar run">Pre-release checklist</div></div>
         <div class="cell"><div class="bar plan">Cierre narrativo</div></div>
         <div class="cell"></div>
         <div class="cell"></div>
@@ -358,9 +358,9 @@
       <article class="note">
         <h2>Riesgos activos de cierre</h2>
         <ul>
-          <li>IE-001 activo: catalogos cerrados del dominio deben tratarse como excepcion, no inflarse para llegar a volumetria arbitraria.</li>
-          <li>IE-002 activo: documentos heredados con rutas previas a la reorganizacion deben marcarse o alinearse.</li>
-          <li>IE-008 activo: asegurar que canvas, landing y reportes reflejen el mismo estado tecnico.</li>
+          <li>IE-001 en excepcion controlada: catalogos cerrados del dominio no deben inflarse para llegar a volumetria arbitraria.</li>
+          <li>IE-002 resuelto: baseline/matriz etiquetados como historicos y validador de rutas documentales en verde.</li>
+          <li>Congelar hash y fecha del paquete pre-release para trazabilidad de entrega.</li>
           <li>Mantener ejecucion de `99_validaciones_post_seed.sql` despues de cambios para evitar regresiones.</li>
         </ul>
       </article>
