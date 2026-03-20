@@ -282,6 +282,8 @@ reabrir el modelo ni introducir todavia un nuevo motor de migraciones.
   - `.github/workflows/db-gate.yml`
 - Plantilla de evidencia remota preparada en:
   - `docs/validacion/PLANTILLA_EVIDENCIA_PIPELINE_CI.md`
+- Script operativo para materializar la evidencia del primer run:
+  - `infra/tools/preparar_evidencia_pipeline_ci.ps1`
 
 ### Decisiones vigentes
 

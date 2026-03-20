@@ -202,6 +202,8 @@ Salida:
 - evidencia de primer pipeline verde
 - plantilla de evidencia remota preparada en:
   - `docs/validacion/PLANTILLA_EVIDENCIA_PIPELINE_CI.md`
+- script operativo para preparar evidencia de corrida remota:
+  - `infra/tools/preparar_evidencia_pipeline_ci.ps1`
 
 ### Fase F1.4 - Control de promoción
 

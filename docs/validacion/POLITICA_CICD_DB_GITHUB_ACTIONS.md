@@ -128,5 +128,7 @@ Se considera que el pipeline requiere ajuste si ocurre cualquiera de estos casos
   - `docs/planes/PLAN_INDUSTRIALIZACION_CICD_DB_2026-03-20.md`
 - Gate oficial:
   - `infra/tools/ejecutar_gate_pre_release.ps1`
+- Evidencia operativa:
+  - `infra/tools/preparar_evidencia_pipeline_ci.ps1`
 - Procedimiento de corte:
   - `docs/validacion/PROCEDIMIENTO_CORTE_RELEASE.md`

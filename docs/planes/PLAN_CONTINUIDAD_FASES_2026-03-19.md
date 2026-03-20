@@ -130,4 +130,5 @@ Estado de verificacion tecnica (corte actual):
 - Frente F1 industrializacion del delivery DB: abierto con ADR y subplan formal publicados.
 - Workflow inicial F1.2: versionado en `.github/workflows/db-gate.yml` para GitHub Actions.
 - Plantilla de evidencia remota F1.3: preparada en `docs/validacion/PLANTILLA_EVIDENCIA_PIPELINE_CI.md`.
+- Script de preparacion de evidencia remota: `infra/tools/preparar_evidencia_pipeline_ci.ps1`.
 - Siguiente foco recomendado: ejecutar y ajustar la primera corrida remota del pipeline sin introducir aun Liquibase ni repo separado.

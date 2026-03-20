@@ -82,6 +82,8 @@ Resultado esperado:
 Registrar la primera corrida remota en:
 
 - `docs/validacion/PLANTILLA_EVIDENCIA_PIPELINE_CI.md`
+- o preparar un archivo base operativo con:
+  - `.\infra\tools\preparar_evidencia_pipeline_ci.ps1`
 
 Si el pipeline remoto falla, el corte no debe considerarse industrializado
 hasta ajustar la diferencia runner/local.
