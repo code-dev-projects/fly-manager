@@ -9,9 +9,9 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 
 - DDL maestro validado en PostgreSQL 16.
 - Seed canonico cerrado con flujo E2E funcional.
-- Seed volumetrico implementado en capa inicial (no cerrado en metas de volumen).
-- Validaciones post-seed disponibles con gate canonico de 6 fases.
-- Narrativa documental en proceso de alineacion fina al estado real de avance.
+- Seed volumetrico cerrado en umbral operativo `1000+` para entidades aplicables.
+- Validaciones post-seed extendidas con gate canonico + gate volumetrico bloqueante.
+- Narrativa documental en ajuste final para reflejar este nuevo estado tecnico.
 
 ## 3. Estado por fase del Plan Maestro
 
@@ -32,20 +32,21 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 
 ### Fase 3. Validacion dura del DDL
 
-- Estado: Cerrada para DDL / En seguimiento para datos volumetricos.
-- Evidencia: validacion DDL completa + seed canonico validado.
-- Gap: falta cierre de gate volumetrico por cobertura y escala.
+- Estado: Cerrada.
+- Evidencia: validacion DDL completa + seed canonico validado + seed volumetrico extendido con gate en verde.
+- Gap: ninguno bloqueante a nivel de datos.
 
 ### Fase 4. Landing multimedia final
 
-- Estado: En curso.
-- Evidencia: landing y reportes navegables.
-- Gap: mantener narrativa sincronizada con estado real (volumetrico parcial).
+- Estado: Cerrada.
+- Evidencia: landing, canvas y reportes alineados al cierre tecnico volumetrico.
+- Gap: ninguno bloqueante en esta fase.
 
 ### Fase 5. QA cruzado
 
-- Estado: Pendiente.
-- Gap: ejecutar cierre cruzado landing/reportes/docs vs estado real de seeds.
+- Estado: Cerrada.
+- Evidencia: verificacion cruzada landing/reportes/docs ejecutada y consistente con seeds.
+- Gap: mantener control de regresion narrativa en siguientes cortes.
 
 ### Fase 6. Release arquitectonico
 
@@ -54,9 +55,8 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 
 ## 4. Brechas activas a cerrar
 
-1. Escalamiento volumetrico incompleto frente a metas de volumen objetivo.
-2. Cobertura parcial del flujo de viaje en seed volumetrico (no solo flujo comercial).
-3. QA cruzado documental aun abierto para cierre de inconsistencias residuales.
+1. Cerrar hallazgos documentales remanentes (referencias historicas/rutas heredadas).
+2. Preparar paquete de pre-release con backlog de refactor posterior.
 
 ## 5. Plan operativo recomendado (continuacion)
 
@@ -66,12 +66,14 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 - Incluir cobertura volumetrica de viaje: `ticket_segment`, `seat_assignment`, `baggage`,
   `check_in`, `boarding_pass`, `boarding_validation`, y escenarios de `refund` cuando aplique.
 - Salida esperada: seed volumetrico ejecutable de punta a punta sobre base limpia.
+- Estado actual: Completado en corte tecnico (ejecucion limpia validada).
 
 ### Tramo B. Gate volumetrico de validacion
 
 - Extender `99_validaciones_post_seed.sql` con umbrales de fase volumetrica.
 - Incorporar chequeos de cronologia y orfandad para nuevas tablas pobladas en volumen.
 - Salida esperada: reporte de validacion sin fallas bloqueantes.
+- Estado actual: Completado con `tablas_falla = 0` en gate volumetrico.
 
 ### Tramo C. QA cruzado de narrativa y evidencia
 
@@ -87,9 +89,9 @@ evitando contradicciones entre DDL, seeds, reportes y documentos de gobierno.
 
 ## 6. Prioridad de fixes (orden de ejecucion)
 
-1. P0: Cierre del gate volumetrico (datos + validaciones).
-2. P1: QA cruzado documental y consistencia de estado.
-3. P2: Ajustes de presentacion y refinamiento final para release.
+1. P0: QA cruzado documental y consistencia de estado (Tramo C).
+2. P1: Ajustes de presentacion y refinamiento final para release.
+3. P2: Congelamiento de paquete y checklist de pre-release (Tramo D).
 
 ## 7. Definicion de listo para continuar
 
@@ -98,3 +100,9 @@ Se considera lista la siguiente iteracion cuando:
 - `01_seed_volumetrico.sql` corre completo sobre base limpia.
 - `99_validaciones_post_seed.sql` no reporta fallas bloqueantes en fase volumetrica.
 - Documentacion y reportes reflejan exactamente el mismo estado de avance.
+
+Estado de verificacion tecnica (corte actual):
+
+- Condicion 1: cumplida.
+- Condicion 2: cumplida.
+- Condicion 3: cumplida tras cierre de ajustes del Tramo C.

@@ -77,6 +77,20 @@ function Assert-PositiveCount {
     Write-Host ("      OK {0}: {1}" -f $Label, $value)
 }
 
+function Assert-MinCount {
+    param(
+        [string]$Label,
+        [string]$Sql,
+        [int64]$MinExpected
+    )
+
+    $value = [int64](Invoke-PsqlScalar -Sql $Sql)
+    if ($value -lt $MinExpected) {
+        throw "Validacion fallida: $Label = $value (minimo esperado: $MinExpected)"
+    }
+    Write-Host ("      OK {0}: {1} (min {2})" -f $Label, $value, $MinExpected)
+}
+
 function Show-Diagnostics {
     Write-Host ""
     Write-Host "[DIAG] Estado del contenedor:"
@@ -193,8 +207,41 @@ SELECT
     AS clientes_vol,
   (SELECT count(*) FROM public.reservation WHERE reservation_code LIKE 'RES-VOL%')
     AS reservas_vol,
+  (SELECT count(*) FROM public.ticket WHERE ticket_number LIKE 'TKT-VOL%')
+    AS tickets_vol,
+  (SELECT count(*) FROM public.ticket_segment ts
+     JOIN public.ticket t ON t.ticket_id = ts.ticket_id
+   WHERE t.ticket_number LIKE 'TKT-VOL%')
+    AS ticket_segments_vol,
+  (SELECT count(*) FROM public.seat_assignment sa
+     JOIN public.ticket_segment ts ON ts.ticket_segment_id = sa.ticket_segment_id
+     JOIN public.ticket t ON t.ticket_id = ts.ticket_id
+   WHERE t.ticket_number LIKE 'TKT-VOL2-%')
+    AS seat_assignments_vol2,
+  (SELECT count(*) FROM public.baggage
+   WHERE baggage_tag LIKE 'BAG-VOL2-%')
+    AS baggage_vol2,
+  (SELECT count(*) FROM public.check_in ci
+     JOIN public.ticket_segment ts ON ts.ticket_segment_id = ci.ticket_segment_id
+     JOIN public.ticket t ON t.ticket_id = ts.ticket_id
+   WHERE t.ticket_number LIKE 'TKT-VOL2-%')
+    AS checkins_vol2,
+  (SELECT count(*) FROM public.boarding_pass
+   WHERE boarding_pass_code LIKE 'BP-VOL2-%')
+    AS boarding_passes_vol2,
+  (SELECT count(*) FROM public.boarding_validation bv
+     JOIN public.boarding_pass bp ON bp.boarding_pass_id = bv.boarding_pass_id
+   WHERE bp.boarding_pass_code LIKE 'BP-VOL2-%')
+    AS boarding_validations_vol2,
+  (SELECT count(*) FROM public.payment WHERE payment_reference LIKE 'PAY-VOL%')
+    AS pagos_vol,
+  (SELECT count(*) FROM public.payment_transaction
+   WHERE transaction_reference LIKE 'TXN-VOL2-%')
+    AS payment_tx_vol2,
   (SELECT count(*) FROM public.invoice  WHERE invoice_number LIKE 'INV-VOL%')
-    AS facturas_vol;
+    AS facturas_vol,
+  (SELECT count(*) FROM public.refund WHERE refund_reference LIKE 'RFD-VOL2-%')
+    AS refunds_vol2;
 "@
 
     docker exec $ContainerName psql `
@@ -219,11 +266,21 @@ SELECT
     Assert-PositiveCount -Label "payment"        -Sql "SELECT count(*) FROM public.payment;"
     Assert-PositiveCount -Label "invoice"        -Sql "SELECT count(*) FROM public.invoice;"
     Assert-PositiveCount -Label "miles_tx"       -Sql "SELECT count(*) FROM public.miles_transaction;"
-    Assert-PositiveCount -Label "vuelos_q2_2026" -Sql "SELECT count(*) FROM public.flight WHERE flight_number IN ('FY120','FY220','FY712');"
-    Assert-PositiveCount -Label "personas_vol"   -Sql "SELECT count(*) FROM public.person WHERE person_id::text LIKE '90000000%';"
-    Assert-PositiveCount -Label "clientes_vol"   -Sql "SELECT count(*) FROM public.customer WHERE customer_id::text LIKE '93000000%';"
-    Assert-PositiveCount -Label "reservas_vol"   -Sql "SELECT count(*) FROM public.reservation WHERE reservation_code LIKE 'RES-VOL%';"
-    Assert-PositiveCount -Label "facturas_vol"   -Sql "SELECT count(*) FROM public.invoice WHERE invoice_number LIKE 'INV-VOL%';"
+    Assert-MinCount -Label "vuelos_q2_2026"       -Sql "SELECT count(*) FROM public.flight WHERE flight_number IN ('FY120','FY220','FY712');" -MinExpected 117
+    Assert-MinCount -Label "personas_vol"         -Sql "SELECT count(*) FROM public.person WHERE person_id::text LIKE '90000000%';" -MinExpected 300
+    Assert-MinCount -Label "clientes_vol"         -Sql "SELECT count(*) FROM public.customer WHERE customer_id::text LIKE '93000000%';" -MinExpected 250
+    Assert-MinCount -Label "reservas_vol"         -Sql "SELECT count(*) FROM public.reservation WHERE reservation_code LIKE 'RES-VOL%';" -MinExpected 1000
+    Assert-MinCount -Label "tickets_vol"          -Sql "SELECT count(*) FROM public.ticket WHERE ticket_number LIKE 'TKT-VOL%';" -MinExpected 1000
+    Assert-MinCount -Label "ticket_segments_vol"  -Sql "SELECT count(*) FROM public.ticket_segment ts JOIN public.ticket t ON t.ticket_id = ts.ticket_id WHERE t.ticket_number LIKE 'TKT-VOL%';" -MinExpected 1000
+    Assert-MinCount -Label "seat_assignments_vol" -Sql "SELECT count(*) FROM public.seat_assignment sa JOIN public.ticket_segment ts ON ts.ticket_segment_id = sa.ticket_segment_id JOIN public.ticket t ON t.ticket_id = ts.ticket_id WHERE t.ticket_number LIKE 'TKT-VOL2-%';" -MinExpected 1000
+    Assert-MinCount -Label "baggage_vol2"         -Sql "SELECT count(*) FROM public.baggage WHERE baggage_tag LIKE 'BAG-VOL2-%';" -MinExpected 1000
+    Assert-MinCount -Label "checkins_vol2"        -Sql "SELECT count(*) FROM public.check_in ci JOIN public.ticket_segment ts ON ts.ticket_segment_id = ci.ticket_segment_id JOIN public.ticket t ON t.ticket_id = ts.ticket_id WHERE t.ticket_number LIKE 'TKT-VOL2-%';" -MinExpected 1000
+    Assert-MinCount -Label "boarding_passes_vol2" -Sql "SELECT count(*) FROM public.boarding_pass WHERE boarding_pass_code LIKE 'BP-VOL2-%';" -MinExpected 1000
+    Assert-MinCount -Label "boarding_valid_vol2"  -Sql "SELECT count(*) FROM public.boarding_validation bv JOIN public.boarding_pass bp ON bp.boarding_pass_id = bv.boarding_pass_id WHERE bp.boarding_pass_code LIKE 'BP-VOL2-%';" -MinExpected 1000
+    Assert-MinCount -Label "pagos_vol"            -Sql "SELECT count(*) FROM public.payment WHERE payment_reference LIKE 'PAY-VOL%';" -MinExpected 1000
+    Assert-MinCount -Label "payment_tx_vol2"      -Sql "SELECT count(*) FROM public.payment_transaction WHERE transaction_reference LIKE 'TXN-VOL2-%';" -MinExpected 1300
+    Assert-MinCount -Label "facturas_vol"         -Sql "SELECT count(*) FROM public.invoice WHERE invoice_number LIKE 'INV-VOL%';" -MinExpected 1000
+    Assert-MinCount -Label "refunds_vol2"         -Sql "SELECT count(*) FROM public.refund WHERE refund_reference LIKE 'RFD-VOL2-%';" -MinExpected 100
 
     Write-Host ""
     Write-Host "[6/6] Estado del contenedor:"

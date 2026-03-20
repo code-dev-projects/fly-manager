@@ -248,14 +248,14 @@
       <a href="../html/funcionalidades_sistema.html">Funcionalidades</a>
       <a href="cronograma_realizacion.html" class="active">Cronograma</a>
     </div>
-    <span class="docnav-badge">19-Mar-2026</span>
+    <span class="docnav-badge">Corte tecnico 19-Mar-2026</span>
   </nav>
 
   <main class="wrap">
     <section class="hero">
       <span class="eyebrow">Cronograma de Realizacion</span>
       <h1>Estado de ejecucion al 19 de marzo de 2026</h1>
-      <p>El seed canonico fue completado junto con la politica cronologica y las validaciones post-seed. El cronograma refleja los hitos ejecutados y las fases en curso del pipeline de datos hacia el cierre volumetrico.</p>
+      <p>El seed canonico y el seed volumetrico quedaron cerrados con validaciones bloqueantes en verde. El cronograma refleja los hitos ejecutados y la fase actual de QA cruzado documental previa al release.</p>
       <div class="links">
         <a href="../../docs/planes/PLAN_FASE_DATOS_MASIVOS_Y_REPORTES.md">Plan maestro de fase</a>
         <a href="../../reports/html/funcionalidades_sistema.html">Informe funcional</a>
@@ -303,24 +303,24 @@
         <div class="cell"></div>
 
         <div class="cell phase">4. Seed volumetrico<div class="meta">Vuelos futuros, reservas adicionales, escala de volumetria</div></div>
-        <div class="cell"><div class="bar run">En curso</div></div>
-        <div class="cell"><div class="bar plan">Construccion</div></div>
-        <div class="cell"><div class="bar plan">Carga y tuning</div></div>
+        <div class="cell"><div class="bar done">Completado</div></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
         <div class="cell"></div>
         <div class="cell"></div>
         <div class="cell"></div>
 
         <div class="cell phase">5. Auditoria estructural<div class="meta">Hallazgos, inconsistencias y base de refactor</div></div>
-        <div class="cell"></div>
-        <div class="cell"><div class="bar plan">Inicio</div></div>
+        <div class="cell"><div class="bar run">En curso</div></div>
         <div class="cell"><div class="bar plan">Hallazgos</div></div>
         <div class="cell"><div class="bar plan">Priorizacion</div></div>
         <div class="cell"></div>
         <div class="cell"></div>
+        <div class="cell"></div>
 
         <div class="cell phase">6. Reportes y narrativa<div class="meta">HTML de funcionalidades, cronograma y soporte ejecutivo</div></div>
-        <div class="cell"><div class="bar done">Refinado</div></div>
-        <div class="cell"><div class="bar plan">Ajuste con volumetrico</div></div>
+        <div class="cell"><div class="bar run">Ajuste QA cruzado</div></div>
+        <div class="cell"><div class="bar plan">Cierre narrativo</div></div>
         <div class="cell"></div>
         <div class="cell"></div>
         <div class="cell"></div>
@@ -350,17 +350,18 @@
         <ul>
           <li>Seed canonico cerrado con 3 flujos E2E completos (IE-007 resuelto).</li>
           <li>Politica cronologica documentada y aplicada en todos los timestamps (IE-005 resuelto).</li>
-          <li>Validaciones post-seed reescritas con gate canonico de 6 fases (IE-009 resuelto).</li>
+          <li>Validaciones post-seed extendidas con gate canónico + volumétrico bloqueantes (7 fases).</li>
+          <li>Seed volumetrico cerrado con cobertura comercial + viaje y umbral operativo cumplido (IE-003 resuelto).</li>
           <li>Orden de carga topologico documentado como contrato operativo (IE-004 resuelto).</li>
         </ul>
       </article>
       <article class="note">
-        <h2>Riesgos activos para el seed volumetrico</h2>
+        <h2>Riesgos activos de cierre</h2>
         <ul>
           <li>IE-001 activo: catalogos cerrados del dominio deben tratarse como excepcion, no inflarse para llegar a volumetria arbitraria.</li>
           <li>IE-002 activo: documentos heredados con rutas previas a la reorganizacion deben marcarse o alinearse.</li>
-          <li>Las fechas del seed volumetrico deben respetar la politica: vuelos futuros entre 2026-03-20 y 2026-06-30.</li>
-          <li>Ejecutar `99_validaciones_post_seed.sql` despues de cada carga para confirmar consistencia.</li>
+          <li>IE-008 activo: asegurar que canvas, landing y reportes reflejen el mismo estado tecnico.</li>
+          <li>Mantener ejecucion de `99_validaciones_post_seed.sql` despues de cambios para evitar regresiones.</li>
         </ul>
       </article>
     </section>

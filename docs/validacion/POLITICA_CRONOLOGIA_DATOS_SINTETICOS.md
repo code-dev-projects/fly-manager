@@ -88,7 +88,7 @@ Miles acreditadas    → al momento del arribo real (actual_arrival_at)
 
 ## Aplicacion en el seed volumetrico
 
-- Vuelos futuros (seed volumetrico): `service_date` entre 2026-03-20 y 2026-06-30.
+- Vuelos futuros (seed volumetrico): `service_date` entre 2026-04-01 y 2026-06-30.
 - Reservas futuras: `booked_at` entre 2026-01-01 y 2026-03-18.
 - Vuelos en estado SCHEDULED o DEPARTED para fechas > 2026-03-19.
 - Vuelos en estado ARRIVED para fechas <= 2026-03-19.

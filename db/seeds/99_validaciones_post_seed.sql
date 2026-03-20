@@ -149,6 +149,21 @@ SELECT
 FROM tmp_canonical_gate cg
 JOIN tmp_row_counts rc ON rc.table_name = cg.table_name;
 
+DO $$
+DECLARE
+  v_gate_fallas bigint;
+BEGIN
+  SELECT count(*)
+  INTO v_gate_fallas
+  FROM tmp_canonical_gate cg
+  JOIN tmp_row_counts rc ON rc.table_name = cg.table_name
+  WHERE rc.row_count < cg.min_expected;
+
+  IF v_gate_fallas > 0 THEN
+    RAISE EXCEPTION 'Gate canonico fallo: % tablas por debajo del minimo esperado.', v_gate_fallas;
+  END IF;
+END $$;
+
 -- ============================================================
 -- FASE 3: TABLAS SIN DATOS (alerta de vaciado inesperado)
 -- ============================================================
@@ -299,4 +314,108 @@ JOIN public.flight_segment fs   ON fs.flight_segment_id = ts.flight_segment_id
 WHERE fs.actual_departure_at IS NOT NULL
   AND ci.checked_in_at > fs.actual_departure_at;
 
-\echo '== GATE CANONICO COMPLETADO =='
+-- ============================================================
+-- FASE 7: GATE VOLUMETRICO
+-- Umbrales aplicables solo a entidades maestras/transaccionales
+-- donde escalar es semanticamente valido.
+-- ============================================================
+
+DROP TABLE IF EXISTS tmp_volumetric_gate;
+CREATE TEMP TABLE tmp_volumetric_gate (
+  table_name   text   PRIMARY KEY,
+  min_expected bigint NOT NULL,
+  gate_note    text   NOT NULL
+);
+
+INSERT INTO tmp_volumetric_gate (table_name, min_expected, gate_note) VALUES
+  ('person',                300,  'Personas del seed volumetrico inicial + canonico'),
+  ('customer',              250,  'Clientes volumetricos iniciales + canonico'),
+  ('loyalty_account',       250,  'Una cuenta de lealtad por cliente volumetrico'),
+  ('miles_transaction',    1000,  'Escala de millas historicas y operacionales'),
+  ('flight',                100,  'Vuelos Q2 2026 mas canonico'),
+  ('flight_segment',        100,  'Segmentos de vuelos Q2 2026'),
+  ('reservation',          1000,  'Reservas volumetricas extendidas'),
+  ('reservation_passenger',1000,  'Un pasajero por reserva volumetrica'),
+  ('sale',                 1000,  'Ventas asociadas a reservas volumetricas'),
+  ('ticket',               1000,  'Tickets emitidos en volumen'),
+  ('ticket_segment',       1000,  'Segmentos de ticket en volumen'),
+  ('seat_assignment',      1000,  'Asignaciones de asiento en volumen'),
+  ('baggage',              1000,  'Equipaje registrado en volumen'),
+  ('check_in',             1000,  'Check-ins operacionales en volumen'),
+  ('boarding_pass',        1000,  'Boarding passes en volumen'),
+  ('boarding_validation',  1000,  'Validaciones de abordaje en volumen'),
+  ('payment',              1000,  'Pagos asociados a ventas volumetricas'),
+  ('payment_transaction',  1300,  'AUTH/CAPTURE/REFUND en volumen'),
+  ('invoice',              1000,  'Facturas en volumen'),
+  ('invoice_line',         3000,  'Tres lineas por factura en volumen'),
+  ('refund',                100,  'Escenarios controlados de reembolso');
+
+\echo '== Gate volumetrico: tablas bajo el minimo esperado =='
+SELECT
+  vg.table_name,
+  vg.min_expected,
+  rc.row_count,
+  vg.gate_note,
+  CASE WHEN rc.row_count >= vg.min_expected THEN 'OK' ELSE 'FALLA' END AS gate_status
+FROM tmp_volumetric_gate vg
+JOIN tmp_row_counts rc ON rc.table_name = vg.table_name
+ORDER BY gate_status DESC, vg.table_name;
+
+\echo '== Resumen gate volumetrico =='
+SELECT
+  COUNT(*) FILTER (WHERE rc.row_count >= vg.min_expected) AS tablas_ok,
+  COUNT(*) FILTER (WHERE rc.row_count < vg.min_expected)  AS tablas_falla,
+  COUNT(*)                                                  AS total_validadas
+FROM tmp_volumetric_gate vg
+JOIN tmp_row_counts rc ON rc.table_name = vg.table_name;
+
+\echo '== Spot check: refunds sin payment valido =='
+SELECT count(*) AS orphan_refunds
+FROM public.refund r
+LEFT JOIN public.payment p ON p.payment_id = r.payment_id
+WHERE p.payment_id IS NULL;
+
+\echo '== Spot check: transacciones REFUND sin refund asociado =='
+SELECT count(*) AS orphan_refund_transactions
+FROM public.payment_transaction pt
+LEFT JOIN public.refund r
+  ON r.payment_id = pt.payment_id
+ AND r.refund_reference = ('RFD-VOL2-' || right(pt.transaction_reference, 6))
+WHERE pt.transaction_type = 'REFUND'
+  AND pt.transaction_reference LIKE 'TXN-VOL2-RFD-%'
+  AND r.refund_id IS NULL;
+
+\echo '== Cronologia volumetrica: check-in despues de salida programada (anomalia) =='
+SELECT count(*) AS anomaly_count
+FROM public.check_in ci
+JOIN public.ticket_segment ts ON ts.ticket_segment_id = ci.ticket_segment_id
+JOIN public.flight_segment fs ON fs.flight_segment_id = ts.flight_segment_id
+WHERE ts.ticket_segment_id::text LIKE 'bb000000%'
+  AND ci.checked_in_at >= fs.scheduled_departure_at;
+
+\echo '== Cronologia volumetrica: validacion de boarding despues de salida (anomalia) =='
+SELECT count(*) AS anomaly_count
+FROM public.boarding_validation bv
+JOIN public.boarding_pass bp ON bp.boarding_pass_id = bv.boarding_pass_id
+JOIN public.check_in ci ON ci.check_in_id = bp.check_in_id
+JOIN public.ticket_segment ts ON ts.ticket_segment_id = ci.ticket_segment_id
+JOIN public.flight_segment fs ON fs.flight_segment_id = ts.flight_segment_id
+WHERE bp.boarding_pass_code LIKE 'BP-VOL2-%'
+  AND bv.validated_at >= fs.scheduled_departure_at;
+
+DO $$
+DECLARE
+  v_gate_fallas bigint;
+BEGIN
+  SELECT count(*)
+  INTO v_gate_fallas
+  FROM tmp_volumetric_gate vg
+  JOIN tmp_row_counts rc ON rc.table_name = vg.table_name
+  WHERE rc.row_count < vg.min_expected;
+
+  IF v_gate_fallas > 0 THEN
+    RAISE EXCEPTION 'Gate volumetrico fallo: % tablas por debajo del minimo esperado.', v_gate_fallas;
+  END IF;
+END $$;
+
+\echo '== GATE CANONICO Y VOLUMETRICO COMPLETADO =='

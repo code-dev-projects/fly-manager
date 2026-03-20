@@ -37,14 +37,14 @@
         </nav>
         
         <div class="hero-content">
-            <div class="hero-badge">PostgreSQL 16 · 12 Módulos · 76 Tablas · 3FN · Seed Canónico ✓</div>
+            <div class="hero-badge">PostgreSQL 16 · 12 Módulos · 76 Tablas · 3FN · Seed Canónico ✓ · Seed Volumétrico ✓</div>
             <h1 class="hero-title">
                 Modelo Relacional<br>
                 <span class="gradient-text">Sistema de Aerolínea</span>
             </h1>
             <p class="hero-description">
-                Arquitectura relacional 3FN validada con seed canónico implementado: 3 flujos comerciales E2E completos
-                desde identidad hasta facturación y embarque. Próximo paso: seed volumétrico.
+                Arquitectura relacional 3FN validada con seed canónico y seed volumétrico implementados:
+                cobertura comercial y de viaje cerrada con gates de validación en verde.
             </p>
             <div class="hero-actions">
                 <a href="#status" class="btn btn-primary">Ver Estado</a>
@@ -181,7 +181,7 @@
     <section id="status" class="project-status">
         <div class="status-header">
             <span class="section-tag">Estado del Proyecto</span>
-            <h2>Pipeline de datos al 19-Mar-2026</h2>
+            <h2>Pipeline de datos al 19-Mar-2026 (corte técnico)</h2>
             <p>Cada fase refleja el contrato operativo entre DDL, seeds y validaciones</p>
         </div>
         <div class="status-phases">
@@ -197,16 +197,16 @@
                 <div class="phase-detail">3 flujos E2E · Política cronológica · Gate de validación</div>
             </div>
             <div class="phase-arrow">→</div>
-            <div class="phase phase-active">
-                <div class="phase-icon pulse">◉</div>
+            <div class="phase phase-done">
+                <div class="phase-icon">✓</div>
                 <div class="phase-name">Seed Volumétrico</div>
-                <div class="phase-detail">Vuelos futuros · Escala de reservas · 2026-03-20 a 2026-06-30</div>
+                <div class="phase-detail">Cobertura comercial + viaje · Gate canónico + volumétrico</div>
             </div>
             <div class="phase-arrow">→</div>
-            <div class="phase phase-pending">
-                <div class="phase-icon">○</div>
-                <div class="phase-name">Auditoría Estructural</div>
-                <div class="phase-detail">IE-001 · IE-002 · Cierre de hallazgos</div>
+            <div class="phase phase-active">
+                <div class="phase-icon pulse">◉</div>
+                <div class="phase-name">QA Cruzado Documental</div>
+                <div class="phase-detail">Alineación landing/canvas/reportes · IE-002 · IE-008</div>
             </div>
             <div class="phase-arrow">→</div>
             <div class="phase phase-pending">
@@ -972,7 +972,7 @@
                 </div>
                 <div class="download-badge active">En curso</div>
                 <h3>Cronograma de Realización</h3>
-                <p>Hitos completados al 19-Mar y fases en curso: expansión del seed volumétrico, auditoría y release técnico.</p>
+                <p>Hitos técnicos cerrados al 19-Mar y fase en curso: QA cruzado documental para consistencia de narrativa y release.</p>
                 <span class="download-format">HTML (.html)</span>
                 <a href="../../reports/cronograma/cronograma_realizacion.html" class="btn btn-primary">Abrir Cronograma</a>
             </div>
@@ -990,7 +990,7 @@
                 <span>FLY</span>
             </div>
             <p>Modelo Relacional 3FN para Sistema de Aerolínea</p>
-            <p class="footer-meta">PostgreSQL 16 · 12 Módulos · 76 Tablas · 100+ FKs · Seed Canónico ✓ · Volumétrico en curso</p>
+            <p class="footer-meta">PostgreSQL 16 · 12 Módulos · 76 Tablas · 100+ FKs · Seed Canónico ✓ · Seed Volumétrico ✓ · QA Documental en curso</p>
         </div>
     </footer>
 

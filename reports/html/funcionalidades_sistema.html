@@ -296,15 +296,15 @@
       <a href="funcionalidades_sistema.html" class="active">Funcionalidades</a>
       <a href="../cronograma/cronograma_realizacion.html">Cronograma</a>
     </div>
-    <span class="docnav-badge">Seed Canónico ✓</span>
+    <span class="docnav-badge">Canónico ✓ · Volumétrico ✓</span>
   </nav>
 
   <main class="wrap">
     <section class="hero">
       <div>
         <span class="eyebrow">Informe Arquitectonico Funcional</span>
-        <h1>Seed canonico validado. Volumetrico en curso.</h1>
-        <p>El seed canonico esta implementado con 3 flujos comerciales E2E completos sobre el modelo 3FN validado en PostgreSQL 16. El seed volumetrico ya inicio con carga real y se encuentra en expansion por fases. La politica cronologica y las validaciones post-seed ya estan cerradas.</p>
+        <h1>Seeds canonico y volumetrico validados.</h1>
+        <p>El seed canonico esta implementado con 3 flujos comerciales E2E completos sobre el modelo 3FN validado en PostgreSQL 16. El seed volumetrico ya quedo cerrado con cobertura comercial + viaje y validacion bloqueante en verde. La politica cronologica y las validaciones post-seed estan operativas como contrato tecnico.</p>
         <div class="links">
           <a href="../../app/landing/index.html">Abrir landing</a>
           <a href="../../architecture/canvas/canvas_arquitectura.html">Abrir canvas</a>
@@ -423,8 +423,8 @@
       <article class="panel">
         <h2>Estado de preparacion</h2>
         <div class="highlight">
-          <p><strong>Listo hoy:</strong> DDL validado, contenedor estable en puerto 5435, seed canonico implementado con 3 flujos E2E completos (BOG-MIA-MAD, BOG-MDE, BOG-MIA Economy), politica cronologica cerrada y validaciones post-seed reescritas con gate canonico preciso.</p>
-          <p><strong>Siguiente salto:</strong> expandir el seed volumetrico (01_seed_volumetrico.sql) hasta cerrar metas de volumen y cobertura del flujo de viaje antes de iniciar el refactor.</p>
+          <p><strong>Listo hoy:</strong> DDL validado, contenedor estable en puerto 5435, seed canonico implementado con 3 flujos E2E completos (BOG-MIA-MAD, BOG-MDE, BOG-MIA Economy), seed volumetrico extendido con cobertura de viaje y validaciones post-seed con gate canónico + volumétrico bloqueantes.</p>
+          <p><strong>Siguiente salto:</strong> cerrar QA cruzado documental (landing, reportes y cronograma) para congelar narrativa unica antes del release tecnico.</p>
         </div>
         <table class="mini-table">
           <thead>
@@ -457,18 +457,18 @@
             </tr>
             <tr>
               <td>Validaciones post-seed</td>
-              <td>Reescritas</td>
-              <td>Gate canonico con 6 fases de verificacion</td>
+              <td>Bloqueantes</td>
+              <td>Gate canónico + gate volumétrico (7 fases de verificación)</td>
             </tr>
             <tr>
               <td>Seed volumetrico</td>
-              <td>En curso</td>
-              <td>Capa inicial implementada; pendiente expansion de cobertura y escala</td>
+              <td>Cerrado</td>
+              <td>Umbral operativo cumplido en entidades aplicables y flujo de viaje</td>
             </tr>
             <tr>
               <td>Seguimiento de inconsistencias</td>
               <td>Activo</td>
-              <td>IE-001 y IE-002 en seguimiento</td>
+              <td>IE-001, IE-002 e IE-008 en seguimiento</td>
             </tr>
           </tbody>
         </table>
