@@ -424,7 +424,7 @@
         <h2>Estado de preparacion</h2>
         <div class="highlight">
           <p><strong>Listo hoy:</strong> DDL validado, release congelado preservado, seed canonico y volumetrico cerrados, migraciones versionadas operativas, rebuild limpio unificado con journal, recovery probado, baseline de performance medido, observabilidad local en verde, seguridad local auditada, secretos runtime locales validados, logins operativos RW/RO/AUDIT conectables, menor privilegio operativo validado, publicacion local de PostgreSQL confinada a loopback y `fly_admin` aislado como break-glass interno.</p>
-          <p><strong>Siguiente salto:</strong> ejecutar la primera corrida remota del workflow `GitHub Actions` del delivery DB sobre el repo actual y registrar su evidencia, sin Liquibase ni repositorio separado en esta fase.</p>
+          <p><strong>Siguiente salto:</strong> aplicar branch protection en GitHub si se desea endurecer el control administrativo, o abrir el siguiente frente de industrializacion ya con `db-gate` remoto y release guard operativos.</p>
         </div>
         <table class="mini-table">
           <thead>

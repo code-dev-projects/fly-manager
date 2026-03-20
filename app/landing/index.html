@@ -299,7 +299,7 @@
             <article class="stability-card current">
                 <span class="stability-stage">S4 · Continuidad operativa</span>
                 <h3>Menor privilegio operativo cerrado</h3>
-                <p>S4 ya cubre secretos locales, accesos operativos y defaults no administrativos: el entorno bloquea placeholders, exige `.env` valido, aísla el admin bootstrap por TCP y ejecuta diagnostico, observabilidad y baseline con AUDIT/RO/RW. El siguiente frente natural ya es F1: industrializacion CI/CD del delivery DB, con workflow de GitHub Actions endurecido y primera corrida remota pendiente de evidencia.</p>
+                <p>S4 ya cubre secretos locales, accesos operativos y defaults no administrativos: el entorno bloquea placeholders, exige `.env` valido, aísla el admin bootstrap por TCP y ejecuta diagnostico, observabilidad y baseline con AUDIT/RO/RW. F1 ya dejo CI remoto en verde sobre GitHub Actions y ahora incorpora release guard de promocion para no depender solo de memoria operativa.</p>
                 <ul class="stability-list">
                     <li>`infra/docker/.env` local no versionado validado por gate</li>
                     <li>RW, RO y AUDIT conectables por password con roles heredados</li>
