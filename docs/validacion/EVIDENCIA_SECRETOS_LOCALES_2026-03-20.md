@@ -8,7 +8,7 @@ logins operativos locales.
 
 ## Contexto de ejecucion
 
-- Fecha de ejecucion: 2026-03-20 16:32:06 -05:00
+- Fecha de ejecucion: 2026-03-24 11:34:23 -05:00
 - Env local: C:\www\code-dev-projects\fly-manager\infra\docker\.env
 - Template: C:\www\code-dev-projects\fly-manager\infra\docker\.env.example
 - Longitud minima requerida: 24

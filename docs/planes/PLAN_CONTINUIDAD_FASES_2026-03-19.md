@@ -134,3 +134,5 @@ Estado de verificacion tecnica (corte actual):
 - Evidencia remota F1.3: validada con runs verdes en `docs/validacion/EVIDENCIA_PIPELINE_CI_REMOTO_2026-03-20.md`.
 - F1.4 release guard: implementado con politica, checklist y validador.
 - Siguiente foco recomendado: aplicar branch protection en GitHub si procede, o abrir el siguiente frente de industrializacion sin introducir aun Liquibase ni repo separado.
+- Frente visual propuesto: `docs/planes/PLAN_REFACTOR_VISUAL_PORTAL_ARQUITECTURA_2026-03-20.md` para convertir landing/canvas/reportes en una capa de comunicacion mas clara y unificada.
+- Ejecucion visual inicial: matriz IA publicada en `docs/planes/MATRIZ_IA_PORTAL_VISUAL_FLY_2026-03-20.md`, nueva landing portal implementada y navegacion unificada entre piezas HTML.
