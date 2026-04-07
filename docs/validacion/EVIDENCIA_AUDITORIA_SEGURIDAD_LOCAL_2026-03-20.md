@@ -8,7 +8,7 @@ completado hasta S4.6.
 
 ## Contexto de ejecucion
 
-- Fecha de ejecucion: 2026-03-24 11:34:27 -05:00
+- Fecha de ejecucion: 2026-04-06 19:20:03 -05:00
 - Contenedor: fly-bd-pg-5435
 - Base auditada: flydb
 - Role admin actual: fly_admin
