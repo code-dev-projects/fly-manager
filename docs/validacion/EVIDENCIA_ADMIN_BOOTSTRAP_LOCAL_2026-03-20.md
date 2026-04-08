@@ -8,7 +8,7 @@ local interno y no por TCP.
 
 ## Contexto de ejecucion
 
-- Fecha de ejecucion: 2026-04-06 19:19:59 -05:00
+- Fecha de ejecucion: 2026-04-07 08:11:00 -05:00
 - Contenedor: fly-bd-pg-5435
 - Base: flydb
 - Admin bootstrap: fly_admin
