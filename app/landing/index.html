@@ -6,6 +6,7 @@
     <title>FLY Data Platform | Portal Arquitectonico</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="ambient ambient-a" aria-hidden="true"></div>
@@ -21,13 +22,15 @@
             </span>
         </a>
         <nav class="topnav" aria-label="Navegacion principal">
-            <a href="#valor">Valor</a>
-            <a href="#equipos">Equipos</a>
-            <a href="#arquitectura">Arquitectura</a>
-            <a href="#evolucion">Evolucion</a>
-            <a href="#evidencias">Evidencias</a>
+            <a href="#valor" data-nav-link>Valor</a>
+            <a href="#equipos" data-nav-link>Equipos</a>
+            <a href="#journeys" data-nav-link>Journeys</a>
+            <a href="#operar" data-nav-link>Operar</a>
+            <a href="#arquitectura" data-nav-link>Arquitectura</a>
+            <a href="#evolucion" data-nav-link>Evolucion</a>
+            <a href="#evidencias" data-nav-link>Evidencias</a>
         </nav>
-        <span class="state-pill">Corte 20-Mar-2026</span>
+        <span class="state-pill">Corte 13-Abr-2026</span>
     </header>
 
     <main class="portal">
@@ -42,6 +45,7 @@
                 </p>
                 <div class="hero-actions">
                     <a class="btn btn-primary" href="#equipos">Ver ruta por equipo</a>
+                    <a class="btn btn-secondary" href="#journeys">Explorar journeys</a>
                     <a class="btn btn-secondary" href="../../architecture/canvas/canvas_arquitectura.html">Ver canvas tecnico</a>
                     <a class="btn btn-ghost" href="../../reports/html/funcionalidades_sistema.html">Ver capacidades</a>
                 </div>
@@ -140,8 +144,15 @@
                 </p>
             </header>
 
+            <div class="audience-switcher" role="tablist" aria-label="Perfiles de adopcion">
+                <button class="audience-tab active" type="button" data-audience="arquitectura" aria-selected="true">Arquitectura / Data</button>
+                <button class="audience-tab" type="button" data-audience="backend" aria-selected="false">Backend</button>
+                <button class="audience-tab" type="button" data-audience="frontend" aria-selected="false">Frontend / Producto</button>
+                <button class="audience-tab" type="button" data-audience="operacion" aria-selected="false">QA / Operacion</button>
+            </div>
+
             <div class="route-grid">
-                <article class="route-card">
+                <article class="route-card active" data-audience="arquitectura" tabindex="0" role="button" aria-pressed="true">
                     <h3>Arquitectura / Data</h3>
                     <p>Revisar decisiones, estado del modelo y gobierno del baseline.</p>
                     <div class="route-links">
@@ -151,7 +162,7 @@
                     </div>
                 </article>
 
-                <article class="route-card">
+                <article class="route-card" data-audience="backend" tabindex="0" role="button" aria-pressed="false">
                     <h3>Backend</h3>
                     <p>Implementar servicios sobre tablas, flujos y validaciones estables.</p>
                     <div class="route-links">
@@ -161,7 +172,7 @@
                     </div>
                 </article>
 
-                <article class="route-card">
+                <article class="route-card" data-audience="frontend" tabindex="0" role="button" aria-pressed="false">
                     <h3>Frontend / Producto</h3>
                     <p>Mapear journeys, estados y dependencias funcionales del dominio.</p>
                     <div class="route-links">
@@ -171,13 +182,241 @@
                     </div>
                 </article>
 
-                <article class="route-card">
+                <article class="route-card" data-audience="operacion" tabindex="0" role="button" aria-pressed="false">
                     <h3>Operacion / QA</h3>
                     <p>Auditar salud, riesgos y promocion de cambios con evidencia trazable.</p>
                     <div class="route-links">
                         <a href="../../docs/validacion/EVIDENCIA_PIPELINE_CI_REMOTO_2026-03-20.md">Evidencia CI</a>
                         <a href="../../docs/validacion/POLITICA_PROMOCION_DB_RELEASE_GUARD.md">Release guard</a>
                         <a href="../../docs/validacion/EVIDENCIA_ADMIN_BOOTSTRAP_LOCAL_2026-03-20.md">Admin bootstrap</a>
+                    </div>
+                </article>
+            </div>
+
+            <aside class="audience-brief" id="audience-brief" aria-live="polite">
+                <div class="brief-head">
+                    <span class="brief-kicker">Recorrido activo</span>
+                    <h3>Arquitectura / Data</h3>
+                    <p>Empieza aqui para validar baseline, modelo vigente y siguiente frente sin reabrir decisiones ya cerradas.</p>
+                </div>
+
+                <div class="brief-grid">
+                    <section class="brief-block">
+                        <h4>Que revisar primero</h4>
+                        <ul class="brief-list">
+                            <li>Canvas para ubicar capas, riesgos y continuidad.</li>
+                            <li>Roadmap senior para entender que ya se estabilizo.</li>
+                            <li>DDL maestro para confirmar el contrato fisico real.</li>
+                        </ul>
+                    </section>
+
+                    <section class="brief-block">
+                        <h4>Resultado esperado</h4>
+                        <ul class="brief-list">
+                            <li>Diagnostico claro del baseline vigente.</li>
+                            <li>Decision de frente siguiente con una sola fuente de verdad.</li>
+                            <li>Handoff tecnico consistente para backend y frontend.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="brief-command">
+                    <span class="command-caption">Primer comando recomendado</span>
+                    <pre class="code-block"><code>.\infra\tools\ejecutar_gate_pre_release.ps1 -SkipDocker</code></pre>
+                    <div class="command-actions">
+                        <button class="copy-btn" type="button" data-copy=".\infra\tools\ejecutar_gate_pre_release.ps1 -SkipDocker">Copiar comando</button>
+                        <span class="command-note">Valida rapido el estado repo-local antes de abrir un nuevo frente de trabajo.</span>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <section id="journeys" class="section section-immersive reveal delay-1">
+            <header class="section-head journey-head">
+                <span class="section-kicker">Diseno + Funcionalidad</span>
+                <h2>Journeys priorizados para materializar una experiencia real</h2>
+                <p>
+                    Elige un flujo y aterriza al mismo tiempo pantallas, estados, contrato backend,
+                    foco QA y los artefactos que el equipo necesita para construir sin ambiguedad.
+                </p>
+            </header>
+
+            <div class="journey-layout">
+                <div class="journey-selector" role="tablist" aria-label="Journeys priorizados">
+                    <button class="journey-tab active" type="button" data-journey="reserva" aria-selected="true">
+                        <span class="journey-tab-index">01</span>
+                        <span class="journey-tab-copy">
+                            <strong>Reserva y venta</strong>
+                            <small>Busqueda, seleccion, cobro y emision</small>
+                        </span>
+                        <span class="journey-signal signal-core">Core</span>
+                    </button>
+
+                    <button class="journey-tab" type="button" data-journey="checkin" aria-selected="false">
+                        <span class="journey-tab-index">02</span>
+                        <span class="journey-tab-copy">
+                            <strong>Check-in y embarque</strong>
+                            <small>Confirmacion, asiento y pase de abordar</small>
+                        </span>
+                        <span class="journey-signal signal-live">Operacion</span>
+                    </button>
+
+                    <button class="journey-tab" type="button" data-journey="postventa" aria-selected="false">
+                        <span class="journey-tab-index">03</span>
+                        <span class="journey-tab-copy">
+                            <strong>Postventa y recaudo</strong>
+                            <small>Cambios, ajustes, devoluciones y trazabilidad</small>
+                        </span>
+                        <span class="journey-signal signal-risk">Riesgo</span>
+                    </button>
+
+                    <button class="journey-tab" type="button" data-journey="lealtad" aria-selected="false">
+                        <span class="journey-tab-index">04</span>
+                        <span class="journey-tab-copy">
+                            <strong>Lealtad y cliente</strong>
+                            <small>Perfil, beneficios y retencion</small>
+                        </span>
+                        <span class="journey-signal signal-growth">Growth</span>
+                    </button>
+                </div>
+
+                <aside class="journey-panel" id="journey-panel" aria-live="polite">
+                    <div class="journey-panel-head">
+                        <span class="journey-kicker">Journey activo</span>
+                        <h3>Reserva y venta</h3>
+                        <p>
+                            Es el flujo que convierte exploracion en ingreso y debe sentirse
+                            confiable, rapido y verificable desde busqueda hasta emision.
+                        </p>
+                    </div>
+
+                    <div class="journey-metrics">
+                        <article class="journey-stat">
+                            <span>Momento critico</span>
+                            <strong>Cotizacion a cobro</strong>
+                        </article>
+                        <article class="journey-stat">
+                            <span>Persona principal</span>
+                            <strong>Cliente comprador</strong>
+                        </article>
+                        <article class="journey-stat">
+                            <span>Tablas eje</span>
+                            <strong>reservation, sale, payment</strong>
+                        </article>
+                    </div>
+
+                    <div class="journey-grid">
+                        <section class="journey-block">
+                            <h4>Estados de experiencia</h4>
+                            <div class="journey-state-grid">
+                                <article class="state-card">
+                                    <strong>Busqueda</strong>
+                                    <p>Explorar origen, destino, fecha, tarifa y disponibilidad.</p>
+                                </article>
+                                <article class="state-card">
+                                    <strong>Seleccion</strong>
+                                    <p>Elegir vuelo, tarifa, asientos base y datos del pasajero.</p>
+                                </article>
+                                <article class="state-card">
+                                    <strong>Pago</strong>
+                                    <p>Confirmar monto, metodo y resultado transaccional sin friccion.</p>
+                                </article>
+                                <article class="state-card">
+                                    <strong>Emision</strong>
+                                    <p>Mostrar ticket, localizador, recibo e invoice trazable.</p>
+                                </article>
+                            </div>
+                        </section>
+
+                        <section class="journey-block">
+                            <h4>Que debe salir de diseno y producto</h4>
+                            <ul class="journey-list">
+                                <li>Flujo completo de compra con estados claros y recuperables.</li>
+                                <li>Mensajes consistentes para validaciones, rechazo y exito.</li>
+                                <li>Resumen final que conecte reserva, ticket e invoice.</li>
+                            </ul>
+                        </section>
+
+                        <section class="journey-block">
+                            <h4>Contrato backend y datos</h4>
+                            <ul class="journey-list">
+                                <li>Persistencia ordenada entre reservation, sale, payment y ticket.</li>
+                                <li>Trazabilidad de transaccion y relacion con invoice.</li>
+                                <li>Estados idempotentes para reintento y confirmacion.</li>
+                            </ul>
+                        </section>
+
+                        <section class="journey-block">
+                            <h4>QA y liberacion</h4>
+                            <ul class="journey-list">
+                                <li>Caso feliz de compra completo con evidencia final.</li>
+                                <li>Fallas de cobro sin doble emision ni registros huerfanos.</li>
+                                <li>Chequeo de consistencia previo a promover cambios.</li>
+                            </ul>
+                        </section>
+                    </div>
+
+                    <div class="journey-footer">
+                        <div class="journey-links">
+                            <a href="../../reports/html/funcionalidades_sistema.html">Abrir informe funcional</a>
+                            <a href="../../db/ddl/modelo_postgresql.sql">Abrir DDL maestro</a>
+                            <a href="../../infra/tools/ejecutar_gate_pre_release.ps1">Abrir gate local</a>
+                        </div>
+
+                        <div class="journey-command">
+                            <span class="command-caption">Siguiente paso recomendado</span>
+                            <pre class="code-block"><code>.\infra\tools\ejecutar_gate_pre_release.ps1 -SkipDocker</code></pre>
+                            <div class="command-actions">
+                                <button class="copy-btn" type="button" data-copy=".\infra\tools\ejecutar_gate_pre_release.ps1 -SkipDocker">Copiar comando</button>
+                                <span class="command-note">Usa este corte rapido antes de traducir el journey a backlog visual y tareas tecnicas.</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section id="operar" class="section reveal delay-1">
+            <header class="section-head">
+                <span class="section-kicker">Operar y Construir</span>
+                <h2>Acciones concretas para mover el proyecto hoy</h2>
+                <p>
+                    Esta base ya tiene comandos y controles suficientes para que un equipo avance
+                    sin improvisar el siguiente paso.
+                </p>
+            </header>
+
+            <div class="command-grid">
+                <article class="command-card">
+                    <span class="command-tag">Chequeo rapido</span>
+                    <h3>Gate repo-local sin Docker</h3>
+                    <p>Valida consistencia documental y control de promocion sin correr rebuild completo.</p>
+                    <pre class="code-block"><code>.\infra\tools\ejecutar_gate_pre_release.ps1 -SkipDocker</code></pre>
+                    <div class="command-actions">
+                        <button class="copy-btn" type="button" data-copy=".\infra\tools\ejecutar_gate_pre_release.ps1 -SkipDocker">Copiar</button>
+                        <a class="command-link" href="../../infra/tools/ejecutar_gate_pre_release.ps1">Ver script</a>
+                    </div>
+                </article>
+
+                <article class="command-card">
+                    <span class="command-tag">Chequeo integral</span>
+                    <h3>Gate completo con rebuild</h3>
+                    <p>Ejecuta el baseline de punta a punta cuando necesites un corte tecnico fuerte.</p>
+                    <pre class="code-block"><code>.\infra\tools\ejecutar_gate_pre_release.ps1</code></pre>
+                    <div class="command-actions">
+                        <button class="copy-btn" type="button" data-copy=".\infra\tools\ejecutar_gate_pre_release.ps1">Copiar</button>
+                        <a class="command-link" href="../../infra/docker/recrear_instalacion_limpia.ps1">Ver rebuild limpio</a>
+                    </div>
+                </article>
+
+                <article class="command-card">
+                    <span class="command-tag">Promocion</span>
+                    <h3>Release guard repo-local</h3>
+                    <p>Confirma que CI, checklist y politica siguen alineados antes de considerar promocion.</p>
+                    <pre class="code-block"><code>.\infra\tools\validar_control_promocion_ci.ps1</code></pre>
+                    <div class="command-actions">
+                        <button class="copy-btn" type="button" data-copy=".\infra\tools\validar_control_promocion_ci.ps1">Copiar</button>
+                        <a class="command-link" href="../../docs/validacion/CHECKLIST_PROMOCION_CI_DB.md">Ver checklist</a>
                     </div>
                 </article>
             </div>
@@ -269,8 +508,17 @@
                 </p>
             </header>
 
+            <div class="filter-row">
+                <button class="filter-chip active" type="button" data-filter="all">Todo</button>
+                <button class="filter-chip" type="button" data-filter="producto">Producto</button>
+                <button class="filter-chip" type="button" data-filter="build">Build</button>
+                <button class="filter-chip" type="button" data-filter="operacion">Operacion</button>
+                <button class="filter-chip" type="button" data-filter="ci">CI</button>
+                <span class="filter-status" data-filter-status>Mostrando 4 grupos de artefactos</span>
+            </div>
+
             <div class="evidence-grid">
-                <article class="evidence-card">
+                <article class="evidence-card" data-tags="producto build">
                     <h3>Portal y contexto</h3>
                     <ul>
                         <li><a href="../../architecture/canvas/canvas_arquitectura.html">Canvas de arquitectura</a></li>
@@ -279,7 +527,7 @@
                     </ul>
                 </article>
 
-                <article class="evidence-card">
+                <article class="evidence-card" data-tags="build producto">
                     <h3>Modelo y delivery</h3>
                     <ul>
                         <li><a href="../../db/ddl/modelo_postgresql.sql">DDL maestro</a></li>
@@ -289,7 +537,7 @@
                     </ul>
                 </article>
 
-                <article class="evidence-card">
+                <article class="evidence-card" data-tags="operacion build">
                     <h3>Operacion y control</h3>
                     <ul>
                         <li><a href="../../infra/docker/recrear_instalacion_limpia.ps1">Recrear instalacion limpia</a></li>
@@ -299,13 +547,14 @@
                     </ul>
                 </article>
 
-                <article class="evidence-card">
+                <article class="evidence-card" data-tags="ci operacion">
                     <h3>Continuidad y CI</h3>
                     <ul>
                         <li><a href="../../docs/planes/ROADMAP_ESTABILIZACION_DB_SENIOR.md">Roadmap senior</a></li>
                         <li><a href="../../docs/planes/PLAN_CONTINUIDAD_FASES_2026-03-19.md">Plan continuidad</a></li>
                         <li><a href="../../docs/validacion/EVIDENCIA_PIPELINE_CI_REMOTO_2026-03-20.md">Evidencia pipeline CI</a></li>
                         <li><a href="../../.github/workflows/db-gate.yml">Workflow db-gate</a></li>
+                        <li><a href="../../docs/validacion/RUNBOOK_BRANCH_PROTECTION_GITHUB.md">Runbook branch protection</a></li>
                     </ul>
                 </article>
             </div>

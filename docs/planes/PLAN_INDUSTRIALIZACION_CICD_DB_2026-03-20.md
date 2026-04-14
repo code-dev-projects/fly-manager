@@ -141,7 +141,8 @@ Razón:
   - `.github/workflows/db-gate.yml`
 - estado:
   - implementado en el repositorio
-  - pendiente primera corrida remota y captura de evidencia del pipeline
+  - primera corrida remota ya validada en `docs/validacion/EVIDENCIA_PIPELINE_CI_REMOTO_2026-03-20.md`
+  - control de promocion repo-local validado con `infra/tools/validar_control_promocion_ci.ps1`
 
 ### Secretos CI
 
@@ -251,7 +252,7 @@ Se considerará industrialización inicial cerrada cuando exista:
 
 ## 11. Siguiente paso inmediato recomendado
 
-Cerrar `F1` a nivel repo y abrir el siguiente frente de industrializacion:
+`F1` queda cerrado a nivel repo. El siguiente frente recomendado es:
 
 - aplicar branch protection en GitHub si hay permisos administrativos
 - o continuar con observabilidad/reporting de pipeline y disciplina de promocion siguiente
