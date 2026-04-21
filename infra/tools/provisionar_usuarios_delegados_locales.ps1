@@ -50,8 +50,8 @@ function Assert-SafeLoginName {
         [string]$Label
     )
 
-    if ([string]::IsNullOrWhiteSpace($Value) -or ($Value -notmatch '^[a-z0-9][a-z0-9._-]{0,62}$')) {
-        throw "$Label invalido. Usa solo minusculas, numeros, punto, guion y underscore."
+    if ([string]::IsNullOrWhiteSpace($Value) -or ($Value -notmatch '^[a-zA-Z0-9][a-zA-Z0-9._-]{0,62}$')) {
+        throw "$Label invalido. Usa solo letras, numeros, punto, guion y underscore."
     }
 }
 
@@ -118,19 +118,21 @@ function Resolve-DelegatedUsersFromCsv {
             throw "Fila $lineNumber sin correo_institucional."
         }
 
-        if ($email.IndexOf("@") -lt 1) {
-            throw "Fila $lineNumber con correo_institucional invalido: $email"
-        }
-
         if ([string]::IsNullOrWhiteSpace($documentId)) {
             throw "Fila $lineNumber sin identificacion."
         }
 
         $loginName = if ([string]::IsNullOrWhiteSpace($explicitLogin)) {
-            $email.Substring(0, $email.IndexOf("@")).Trim().ToLowerInvariant()
+            # Si tiene @, extraer la parte antes del @ en minusculas; si no, usar el valor completo TAL CUAL
+            if ($email.IndexOf("@") -ge 1) {
+                $email.Substring(0, $email.IndexOf("@")).Trim().ToLowerInvariant()
+            }
+            else {
+                $email.Trim()
+            }
         }
         else {
-            $explicitLogin.ToLowerInvariant()
+            $explicitLogin.Trim()
         }
 
         $password = if ([string]::IsNullOrWhiteSpace($explicitPassword)) {
