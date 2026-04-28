@@ -7,7 +7,7 @@ seguimiento de capacidad, locks, actividad y crecimiento.
 
 ## Contexto de ejecucion
 
-- Fecha de ejecucion: 2026-04-28 13:32:45 -05:00
+- Fecha de ejecucion: 2026-04-28 13:48:49 -05:00
 - Contenedor: fly-bd-pg-5435
 - Base primaria: flydb
 - Base secundaria: flydb_restore_validation
@@ -43,7 +43,7 @@ seguimiento de capacidad, locks, actividad y crecimiento.
 | --- | --- | --- |
 | invoice_line | 1015808 | 992 kB |
 | payment_transaction | 573440 | 560 kB |
-| payment | 540672 | 528 kB |
+| payment | 548864 | 536 kB |
 | ticket_segment | 540672 | 528 kB |
 | invoice | 483328 | 472 kB |
 | boarding_pass | 450560 | 440 kB |
